@@ -1,7 +1,11 @@
 package graphs;
 
+//TODO - implement a system of unique IDs for replacement rules - maybe some
+// ordering of the nodoes?
+
 /**
- * A node in the mission graph.  Described by a type and the nodes it's connected to.
+ * A node in the mission graph.  Described by a type and the nodes it's
+ * connected to.
  * Heriberto Gonzalez - November 2019
  */
 public class MissionGraphNode {
@@ -13,6 +17,9 @@ public class MissionGraphNode {
     //The type of this node, one of the enumerated symbols of the alphabet
     private alphabet nodeType;
 
+    //The unique ID of this node
+    private int id;
+
     /**
      * Creates a new instance of a MissionGraphNode with a nodeType
      *
@@ -20,6 +27,7 @@ public class MissionGraphNode {
      */
     public MissionGraphNode(alphabet nodeType) {
         this.nodeType = nodeType;
+        //TODO - set id here, take input?
     }
 
     /**
@@ -32,17 +40,21 @@ public class MissionGraphNode {
     /**
      * Change the indicated graph connection
      *
-     * @param connectionSide - side of the node where the newNode will be placed.  0 is left, increasing clockwise
-     * @param newNode        - the new node to add to the graph at the given location.
+     * @param connectionSide - side of the node where the newNode will be
+     *                       placed.  0 is left, increasing clockwise
+     * @param newNode        - the new node to add to the graph at the given
+     *                       location.
      */
-    public void setConnection(nodePositions connectionSide, MissionGraphNode newNode) {
+    public void setConnection(nodePositions connectionSide,
+                              MissionGraphNode newNode) {
         connections[connectionSide.getNumVal()] = newNode;
     }
 
     /**
      * Returns the requested node
      *
-     * @param connectionSide - the side of the graph to get the node from, left is 0, increasing clockwise.
+     * @param connectionSide - the side of the graph to get the node from,
+     *                       left is 0, increasing clockwise.
      * @return
      */
     public MissionGraphNode getConnection(nodePositions connectionSide) {

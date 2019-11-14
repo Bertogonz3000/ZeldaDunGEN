@@ -2,19 +2,28 @@ package graphs;
 
 public enum alphabet {
     //The alphabet of symbols to be used in graph grammar.
-    boss_level(0), boss_mini(1), entrance(2), goal(3), key(4), lock(5),
-    exploration(6);
+    BOSS_LEVEL(0, true), BOSS_MINI(1, true), ENTRANCE(2, true), GOAL(3, true), KEY(4, true),
+    LOCK(5, true), EXPLORATION(6, false), CHAIN(7, false),
+    FINAL_CHAIN(8, false), GATE(8, false), START(9, false), FINAL_KEY(10, true), FINAL_LOCK(11,
+            true), MONSTER_ROOM(12, true);
 
     //numerical value of this enum
     private int numVal;
+    //boolean telling whether or not a node marked by this symbol is terminal
+    private boolean terminal;
 
-    alphabet(int numVal) {
+    alphabet(int numVal, boolean terminal) {
         this.numVal = numVal;
         this.numVal = numVal;
     }
 
     public int getNumVal() {
         return this.numVal;
+    }
+
+    //return whether or not a node marked by this alphabet symbol is terminal
+    public boolean getIsTerminal() {
+        return this.terminal;
     }
 
     @Override
