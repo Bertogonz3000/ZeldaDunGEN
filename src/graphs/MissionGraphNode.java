@@ -12,13 +12,31 @@ public class MissionGraphNode {
 
     //Array containing up to four other nodes that a graph is connected to
     //0 is left, continuing clockwise around the node
-    private MissionGraphNode[] connections = new MissionGraphNode[4];
+    private MissionGraphEdge[] connections = new MissionGraphEdge[4];
 
     //The type of this node, one of the enumerated symbols of the alphabet
     private alphabet nodeType;
 
     //The unique ID of this node
     private int id;
+
+    /**
+     * Return the UNIQUE ID of this node, this should be set in the MissionGraph class
+     *
+     * @return
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Set the UNIQUE ID of this node, should be set in the MissionGraph Class
+     *
+     * @param id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
 
     /**
      * Creates a new instance of a MissionGraphNode with a nodeType
@@ -42,12 +60,12 @@ public class MissionGraphNode {
      *
      * @param connectionSide - side of the node where the newNode will be
      *                       placed.  0 is left, increasing clockwise
-     * @param newNode        - the new node to add to the graph at the given
+     * @param newEdge        - the new edge to add to the graph at the given
      *                       location.
      */
     public void setConnection(nodePositions connectionSide,
-                              MissionGraphNode newNode) {
-        connections[connectionSide.getNumVal()] = newNode;
+                              MissionGraphEdge newEdge) {
+        connections[connectionSide.getNumVal()] = newEdge;
     }
 
     /**
@@ -57,7 +75,7 @@ public class MissionGraphNode {
      *                       left is 0, increasing clockwise.
      * @return
      */
-    public MissionGraphNode getConnection(nodePositions connectionSide) {
+    public MissionGraphEdge getConnection(nodePositions connectionSide) {
         return connections[connectionSide.getNumVal()];
     }
 

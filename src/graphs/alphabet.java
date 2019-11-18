@@ -1,11 +1,27 @@
 package graphs;
 
+import java.util.ArrayList;
+
 public enum alphabet {
     //The alphabet of symbols to be used in graph grammar.
-    BOSS_LEVEL(0, true), BOSS_MINI(1, true), ENTRANCE(2, true), GOAL(3, true), KEY(4, true),
-    LOCK(5, true), EXPLORATION(6, false), CHAIN(7, false),
-    FINAL_CHAIN(8, false), GATE(8, false), START(9, false), FINAL_KEY(10, true), FINAL_LOCK(11,
-            true), MONSTER_ROOM(12, true);
+    BOSS_LEVEL(0, true),
+    BOSS_MINI(1, true),
+    ENTRANCE(2, true),
+    GOAL(3, true),
+    KEY(4, true),
+    LOCK(5, true),
+    EXPLORATION(6, false),
+    CHAIN(7, false),
+    FINAL_CHAIN(8, false),
+    GATE(8, false),
+    START(9, false),
+    FINAL_KEY(10, true),
+    FINAL_LOCK(11, true),
+    MONSTER_ROOM(12, true);
+
+    private ArrayList<MissionGraph> bossLevelRules, bossMiniRules, entranceRules,
+    goalRules, keyRules, lockRules, explorationRules, chainRules, finalChainRules,
+    gateRules, startRules, finalKeyRules, finalLockRules, monsterRoomRules;
 
     //numerical value of this enum
     private int numVal;
