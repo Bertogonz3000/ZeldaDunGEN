@@ -1,4 +1,4 @@
-package graphs;
+package GraphGrammars;
 
 //TODO - implement a system of unique IDs for replacement rules - maybe some
 // ordering of the nodoes?
@@ -19,6 +19,9 @@ public class MissionGraphNode {
 
     //The unique ID of this node
     private int id;
+
+    //Whether or not this node can be removed at the end of a loop
+    private boolean removable = false;
 
     /**
      * Return the UNIQUE ID of this node, this should be set in the MissionGraph class
@@ -45,7 +48,6 @@ public class MissionGraphNode {
      */
     public MissionGraphNode(alphabet nodeType) {
         this.nodeType = nodeType;
-        //TODO - set id here, take input?
     }
 
     /**
@@ -68,6 +70,19 @@ public class MissionGraphNode {
         connections[connectionSide.getNumVal()] = newEdge;
     }
 
+    public boolean isTerminal() {
+        return nodeType.getIsTerminal();
+    }
+
+
+    public boolean isRemovable() {
+        return removable;
+    }
+
+    public void markForRemoval() {
+        this.removable = true;
+    }
+
     /**
      * Returns the requested node
      *
@@ -79,35 +94,43 @@ public class MissionGraphNode {
         return connections[connectionSide.getNumVal()];
     }
 
+    /**
+     * Return the array of connected edges
+     *
+     * @return
+     */
+    public MissionGraphEdge[] getConnections() {
+        return connections;
+    }
+
     //TODO - mess with this toString method once we have a testable product
     @Override
     public String toString() {
-        String string = this.nodeType.toString() + "\n";
 
-        if (connections[nodePositions.LEFT.getNumVal()] != null) {
-            string += "      " + getConnection(nodePositions.LEFT) + "\n";
-        } else {
-            string += "none,\n";
+        StringBuilder aggString = new StringBuilder();
+
+        aggString.append("(").append(this.nodeType).append(", ").append(this.id)
+                .append(")").append(" :: (");
+
+        for (int i = 0; i < connections.length; i++) {
+            if (connections[i] != null) {
+                MissionGraphNode thisNode;
+                if (connections[i].getPointingTo() == this) {
+                    thisNode = connections[i].getPointingFrom();
+                } else {
+                    thisNode = connections[i].getPointingTo();
+                }
+                aggString.append(thisNode.nodeType);
+                aggString.append(":");
+                aggString.append(thisNode.id);
+                if (i < 3) {
+                    aggString.append(", ");
+                }
+            }
         }
 
-        if (connections[nodePositions.RIGHT.getNumVal()] != null) {
-            string += "      " + getConnection(nodePositions.RIGHT) + "\n";
-        } else {
-            string += "none,\n";
-        }
+        aggString.append(")");
 
-        if (connections[nodePositions.RIGHT.getNumVal()] != null) {
-            string += "      " + getConnection(nodePositions.RIGHT) + "\n";
-        } else {
-            string += "none,\n";
-        }
-
-        if (connections[nodePositions.RIGHT.getNumVal()] != null) {
-            string += "      " + getConnection(nodePositions.RIGHT) + "\n";
-        } else {
-            string += "none,\n";
-        }
-
-        return string;
+        return aggString.toString();
     }
 }

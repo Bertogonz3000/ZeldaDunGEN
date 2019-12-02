@@ -1,11 +1,11 @@
-package graphs;
+package GraphGrammars;
 
 //TODO - decide if we want setters for the two values in this class
 
 public class MissionGraphEdge {
 
     //The ID of the node this edge is pointing to
-    private MissionGraphNode pointingTo;
+    private MissionGraphNode pointingTo, pointingFrom;
 
     //Boolean telling whether or not this connection is a tight coupling, which means that the
     //events that 2 nodes convey must be completed in a specific order quickly one after another.
@@ -15,13 +15,29 @@ public class MissionGraphEdge {
     //TODO - learning Solarus
     private boolean tightCoupling = false;
 
-    public MissionGraphEdge(MissionGraphNode pointingTo, boolean tightCoupling) {
+    public MissionGraphEdge(MissionGraphNode pointingFrom, MissionGraphNode pointingTo,
+                            boolean tightCoupling) {
         this.pointingTo = pointingTo;
         this.tightCoupling = tightCoupling;
+        this.pointingFrom = pointingFrom;
     }
 
     public MissionGraphNode getPointingTo() {
         return pointingTo;
+    }
+
+    public MissionGraphNode getPointingFrom() {
+        return pointingFrom;
+    }
+
+    public MissionGraphEdge setPointingTo(MissionGraphNode pointingTo) {
+        this.pointingTo = pointingTo;
+        return this;
+    }
+
+    public MissionGraphEdge setPointingFrom(MissionGraphNode pointingFrom) {
+        this.pointingFrom = pointingFrom;
+        return this;
     }
 
     public boolean isTightCoupling() {
