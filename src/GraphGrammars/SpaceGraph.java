@@ -116,21 +116,94 @@ public class SpaceGraph {
         while (applicationFailed) {
             //Select a room to extend off of
             Room base = selectRandomRoomWithAvailableDoors();
+            //Select a side of the room to build off of
+            nodePositions side = selectRandomSide(base);
             //adjust all the coords in the rule based on this room
-            ArrayList<int[]> adjustedCoords = adjustCoords(ruleRooms, selectRandomSide(base), base);
+            ArrayList<int[]> adjustedCoords = adjustCoords(ruleRooms, side, base);
             //Check if the rule fits, if so, apply it an leave the while loop
             if (checkRule(adjustedCoords)) {
                 //TODO - pickup here
+                applyRule(base, side, ruleRooms, adjustedCoords);
                 applicationFailed = false;
             }
         }
+    }
 
+    //TODO - do we ever want to connect two rooms that aren't connected by rules?  Maybe this is
+    // some post-processing we can do?
+
+    /**
+     * Apply a rule to the graph at the given base room on side side
+     *
+     * @param base           - base room to add the graph to
+     * @param side           - side of base room to add to
+     * @param ruleRooms      - rooms to add
+     * @param adjustedCoords - adjusted coordinates of the rooms (should be calculated during
+     *                       rule checking step)
+     */
+    private void applyRule(Room base, nodePositions side, ArrayList<Room> ruleRooms,
+                           ArrayList<int[]> adjustedCoords) {
+        assert adjustedCoords.size() == ruleRooms.size() : "ruleRooms and adjustedCoords must map" +
+                " to eachother exactly";
+
+        //for each new node: add to graph, adjust coords, and setup connections
+        for (int i = 0; i < ruleRooms.size(); i++) {
+            Room newRoom = ruleRooms.get(i);
+            addRoom(newRoom);
+            newRoom.setCoords(adjustedCoords.get(i));
+        }
+
+        //TODO - decide if this should be checked or if we can just be big bois and gorls and
+        // follow the rules
+        //Since the rooms in a rule should already be connected, the only needed new connection
+        // is the base to the first room
+        connect(base, side, ruleRooms.get(0));
+    }
+
+    /**
+     * Connect first room to second room via firstRoom's sideOfFirstRoom side
+     *
+     * @param firstRoom       - first room in connection
+     * @param sideOfFirstRoom - the side of first room that the connection will be made on -
+     *                        opposite connection will be made for secondRoom
+     * @param secondRoom      - second room in connection
+     */
+    private void connect(Room firstRoom, nodePositions sideOfFirstRoom, Room secondRoom) {
+        firstRoom.setConnection(sideOfFirstRoom, secondRoom);
+        int firstSideNumVal = sideOfFirstRoom.getNumVal();
+        nodePositions sideOfSecondRoom = nodePositions.getPositionForInt((firstSideNumVal + 2) % 4);
+        secondRoom.setConnection(sideOfSecondRoom, firstRoom);
     }
 
     //TODO - get rid of this testing method
 //    public void testSomeShit() {
-//        MissionGraphNode node = new MissionGraphNode(alphabet.KEY);
-//        System.out.println(selectRandomRule(node));
+//        Room entrance = new Room(roomContents.ENTRACE);
+//        entrance.setCoords(new int[]{0, 0});
+//
+//        Room one = new Room();
+//        one.setCoords(new int[]{0, 0});
+//
+//        Room two = new Room();
+//        two.setCoords(new int[]{1, 0});
+//
+//        Room three = new Room();
+//        three.setCoords(new int[]{1, 1});
+//
+//        connect(one, nodePositions.RIGHT, two);
+//        connect(two, nodePositions.TOP, three);
+//
+//        ArrayList<Room> rule = new ArrayList<>();
+//        rule.add(one);
+//        rule.add(two);
+//        rule.add(three);
+//
+//        applyRule(entrance, nodePositions.RIGHT, rule, adjustCoords(rule, nodePositions.RIGHT,
+//                entrance));
+//
+//        System.out.println(entrance);
+//        System.out.println(one);
+//        System.out.println(two);
+//        System.out.println(three);
 //    }
 
     /**
