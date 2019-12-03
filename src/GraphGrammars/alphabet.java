@@ -15,10 +15,10 @@ public enum alphabet {
     LOCK(5, true),
     MONSTER_ROOM(13, true),
     EXPLORATION(6, false),
-    CHAIN(7, false, MissionReplacementRuleMaker.makeChainRules()),
-    FINAL_CHAIN(8, false, MissionReplacementRuleMaker.makeFinalChainRules()),
+    CHAIN(7, false, new MissionReplacementRuleMaker(7)),
+    FINAL_CHAIN(8, false, new MissionReplacementRuleMaker(8)),
     GATE(9, false),
-    START(10, false, MissionReplacementRuleMaker.makeStartRules()),
+    START(10, false, new MissionReplacementRuleMaker(10)),
     FINAL_KEY(11, true),
     FINAL_LOCK(12, true);
 
@@ -27,7 +27,7 @@ public enum alphabet {
     //boolean telling whether or not a node marked by this symbol is terminal
     private boolean terminal;
     //replacement rules for one node
-    private ArrayList<MissionGraph> missionRules;
+    private MissionReplacementRuleMaker missionRules;
     //replacement rules for space graph
     private SpaceGraphRuleSet spaceRules;
 
@@ -38,7 +38,7 @@ public enum alphabet {
      * @param terminal - is this node terminal in the mission graph?
      * @param rules    - rules for replacing this node with others in the mission graph.
      */
-    alphabet(int numVal, boolean terminal, ArrayList<MissionGraph> rules) {
+    alphabet(int numVal, boolean terminal, MissionReplacementRuleMaker rules) {
         this.numVal = numVal;
         this.terminal = terminal;
         this.missionRules = rules;
@@ -70,7 +70,7 @@ public enum alphabet {
      * @return
      */
     public ArrayList<MissionGraph> getReplacementRules() {
-        return this.missionRules;
+        return this.missionRules.getReplacementRuleSet();
     }
 
     /**

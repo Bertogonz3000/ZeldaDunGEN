@@ -4,13 +4,29 @@ import java.util.ArrayList;
 
 public class MissionReplacementRuleMaker {
 
+    private int alphabetValue;
+
     /**
      * 0 param constructor
      */
-    public MissionReplacementRuleMaker() {
+    public MissionReplacementRuleMaker(int alphabetValue) {
+        this.alphabetValue = alphabetValue;
     }
 
-    public static ArrayList<MissionGraph> makeChainRules() {
+    public ArrayList<MissionGraph> getReplacementRuleSet() {
+        switch (alphabetValue) {
+            case 7:
+                return makeChainRules();
+            case 8:
+                return makeFinalChainRules();
+            case 10:
+                return makeStartRules();
+            default:
+                throw new IndexOutOfBoundsException("Illegal alphabetValue for MRRM");
+        }
+    }
+
+    private static ArrayList<MissionGraph> makeChainRules() {
         ArrayList<MissionGraph> chainRules = new ArrayList<>();
 
         MissionGraph firstRule = new MissionGraph(new MissionGraphNode(alphabet.MONSTER_ROOM));
@@ -27,12 +43,12 @@ public class MissionReplacementRuleMaker {
         return chainRules;
     }
 
-    public static ArrayList<MissionGraph> makeFinalChainRules() {
+    private static ArrayList<MissionGraph> makeFinalChainRules() {
         ArrayList<MissionGraph> finalChainRules = new ArrayList<>();
 
-        MissionGraph firstRule = new MissionGraph(new MissionGraphNode(alphabet.KEY));
+        MissionGraph firstRule = new MissionGraph(new MissionGraphNode(alphabet.FINAL_KEY));
 
-        addNodeLinear(firstRule, alphabet.KEY,
+        addNodeLinear(firstRule, alphabet.FINAL_LOCK,
                 firstRule.getNodes().get(firstRule.getNodes().size() - 1), false);
         addNodeLinear(firstRule, alphabet.BOSS_LEVEL,
                 firstRule.getNodes().get(firstRule.getNodes().size() - 1), false);
@@ -47,16 +63,16 @@ public class MissionReplacementRuleMaker {
      *
      * @return
      */
-    public static ArrayList<MissionGraph> makeStartRules() {
+    private static ArrayList<MissionGraph> makeStartRules() {
         ArrayList<MissionGraph> startRules = new ArrayList<>();
 
         MissionGraph oneChain = entranceAndChains(1);
-//        MissionGraph twoChains = entranceAndChains(2);
-//        MissionGraph threeChains = entranceAndChains(3);
+        MissionGraph twoChains = entranceAndChains(2);
+        MissionGraph threeChains = entranceAndChains(3);
 
         startRules.add(oneChain);
-//        startRules.add(twoChains);
-//        startRules.add(threeChains);
+        startRules.add(twoChains);
+        startRules.add(threeChains);
 
         return startRules;
     }
@@ -91,7 +107,7 @@ public class MissionReplacementRuleMaker {
     }
 
     public static void addNodeLinear(MissionGraph graph, alphabet roomType,
-                                      MissionGraphNode prevNode, boolean tightCoupling) {
+                                     MissionGraphNode prevNode, boolean tightCoupling) {
         MissionGraphNode newNode = new MissionGraphNode(roomType);
         graph.addNode(newNode);
 

@@ -3,8 +3,8 @@ package GraphGrammars;
 public class Experimenter {
 
     public static void main(String[] args) {
-//        SpaceGraph testGraph = new SpaceGraph();
-//        testGraph.testSomeShit();
+        SpaceGraph testGraph = new SpaceGraph();
+        testGraph.testSomeStuff();
     }
 
     public static void testSpaceGraphRuleSelection() {

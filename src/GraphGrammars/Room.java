@@ -18,6 +18,9 @@ public class Room {
     //The contents of this room
     private ArrayList<roomContents> contents = new ArrayList<>();
 
+    private boolean[] lockedDoors = new boolean[4];
+
+
     /**
      * 0 arguent constructor
      */
@@ -44,6 +47,24 @@ public class Room {
             }
         }
         return unused;
+    }
+
+    /**
+     * Lock the door given by side
+     *
+     * @param side - the door to lock
+     */
+    public void lockDoor(nodePositions side) {
+        lockedDoors[side.getNumVal()] = true;
+    }
+
+    /**
+     * Unlock the door given by side
+     *
+     * @param side - the door to unlock
+     */
+    public void unlockDoor(nodePositions side) {
+        lockedDoors[side.getNumVal()] = false;
     }
 
     /**
@@ -106,9 +127,14 @@ public class Room {
         StringBuilder builder = new StringBuilder();
         builder.append("(").append(coords[0]).append(", ").append(coords[1]).append(")").append(
                 " :: ").append(contents).append(" :: ");
-        for (Room room : connections) {
-            if (room != null) {
-                builder.append("(").append(room.coords[0]).append(", ").append(room.coords[1]).append(")");
+        for (int i = 0; i < connections.length; i++) {
+            if (connections[i] != null) {
+                int[] roomCoords = connections[i].coords;
+                if (lockedDoors[i]) {
+                    builder.append("[").append(roomCoords[0]).append(", ").append(roomCoords[1]).append("]");
+                } else {
+                    builder.append("(").append(roomCoords[0]).append(", ").append(roomCoords[1]).append(")");
+                }
             }
         }
         return builder.toString();

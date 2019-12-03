@@ -4,25 +4,23 @@ import java.util.ArrayList;
 
 public class SpaceGraphRuleSet {
 
-    private ArrayList<SpaceGraph> ruleSet;
+    private int alphabetValue;
 
     public SpaceGraphRuleSet(int alphabetValue) {
+        this.alphabetValue = alphabetValue;
+    }
+
+    public ArrayList<SpaceGraph> getRuleSet() {
         switch (alphabetValue) {
             case 0:
-                ruleSet = makeBossLevelSet();
-                break;
+                return makeBossLevelSet();
             case 4:
-                ruleSet = makeKeySet();
-                break;
+                return makeKeySet();
             default:
                 throw new IndexOutOfBoundsException("Alphabet value must be a real alphabet " +
                         "symbols " +
                         "numval");
         }
-    }
-
-    public ArrayList<SpaceGraph> getRuleSet() {
-        return ruleSet;
     }
 
     /**
@@ -103,8 +101,9 @@ public class SpaceGraphRuleSet {
      */
     private void addRoomForRuleset(SpaceGraph graph, Room newRoom, int[] coords,
                                    Room[] connections) {
-        assert coords.length == 2 : "Coords of new room can't contain more than 2 ints";
-        assert connections.length <= 4 : "A room can have a MAXIMUM of 4 connections";
+        if (coords.length != 2 || connections.length > 4) {
+            throw new IllegalArgumentException("length of an array is incorrect");
+        }
 
         //Set the coords of the new room
         newRoom.setCoords(coords);

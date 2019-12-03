@@ -76,17 +76,21 @@ public class MissionGraph {
         return false;
     }
 
+//TODO - nodes are being duplicated, figure out why
+
     /**
      * Replace any non-terminal nodes in this graph, following the rules laid out in
      * ReplacementRuleMaker.class
      */
     public void runReplacements() {
-        assert !nodes.isEmpty() : "Graph must have nodes to run replacement";
+        if (nodes.isEmpty()) {
+            throw new IndexOutOfBoundsException("Graph must have nodes to run replacement");
+        }
 
         while (this.hasNonTerminalNodes()) {
             for (int i = 0; i < nodes.size(); i++) {
                 MissionGraphNode currentNode = nodes.get(i);
-                //If the node is non-terminal...
+                //If the node is non-terminal and non-removable...
                 if (!currentNode.getNodeType().getIsTerminal() && !currentNode.isRemovable()) {
                     //Get the possible rules from its type and choose one
                     ArrayList<MissionGraph> possibleRules =
@@ -142,6 +146,10 @@ public class MissionGraph {
             nodes.get(i).setId(i);
         }
     }
+
+    //TODO - the problem, I think, is that each of the rules counts as one single entity every
+    // single time that it is referenced, so what I need to do is make it singular so that each
+    // new one is really a new one.
 
     @Override
     public String toString() {
