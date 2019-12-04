@@ -13,12 +13,12 @@ public class SpaceGraph {
     // strucutres, maybe we only want to do this "sections" thing in certain situations, like
     // when we have a lock with a key behind it.
 
+
+    //TODO - two next things: figure out a way to connect rooms in the same "level" of the graph
+    // (like behind the same locks) and figure out where it gets stuck sometimes.
     //List of all the rooms in this space graph
     private ArrayList<Room> rooms = new ArrayList<>();
 
-    //TODO - add viable rooms to rooms with unused connections
-    //TODO - this could be changed to viableRooms or something - this could help us with skipping
-    // problems
     //List of all rooms in this graph with unused connections.
     private ArrayList<Room> viableRooms = new ArrayList<>();
 
@@ -46,8 +46,6 @@ public class SpaceGraph {
         rooms.add(room);
     }
 
-    //TODO - when making new connections, be sure to make the connection on both sides
-    //TODO - consider taking addRoomForRuleset from SpaceGraphRuleSet, or at least its logic
     //TODO - might be a good idea to ensure that build can never be called on the same graph
     // twice - either set the graph to empty at the beginning or have a bool that doens't allow
     // it to be built without being cleared first
@@ -90,11 +88,11 @@ public class SpaceGraph {
 
     //TODO - decide if we need to worry about tightly connected edges...if we don't have rules
     // for them it might not make sense... not even really sure how we would add rules for them
-    //TODO - should we check for if nodes have already been used? This won't be an issue if the
-    // nodes can't circle back around
 
 
-    //TODO - spin rules so that they don't always show up facing the same direction
+    //TODO - when it comes to branching, it might be a good idea to have viable rooms saved, or
+    // to reload them after a branch.  We don't necessarily want branches to lock off new
+    // sections;..they should be exploratory
 
     /**
      * Takes a mission graph node, and for each neighbor, continues to build the space graph
@@ -159,7 +157,6 @@ public class SpaceGraph {
         //Randomly get the number of shifts to perform
         Random random = new Random();
         int shifts = random.nextInt(4);
-        System.out.println(shifts);
         switch (shifts) {
             case 0:
                 break;
@@ -214,33 +211,33 @@ public class SpaceGraph {
     }
 
     //TODO - get rid of this testing method
-    public void testSomeStuff() {
-        Room entrance = new Room(roomContents.ENTRACE);
-        entrance.setCoords(new int[]{0, 0});
-
-        Room one = new Room();
-        one.setCoords(new int[]{0, 0});
-
-        Room two = new Room();
-        two.setCoords(new int[]{1, 0});
-
-        Room three = new Room();
-        three.setCoords(new int[]{1, 1});
-
-        connect(one, nodePositions.RIGHT, two);
-        connect(two, nodePositions.TOP, three);
-
-        ArrayList<Room> rule = new ArrayList<>();
-        rule.add(one);
-        rule.add(two);
-        rule.add(three);
-
-        System.out.println(rule);
-
-        randomlySpinGraph(rule);
-
-        System.out.println(rule);
-    }
+//    public void testSomeStuff() {
+//        Room entrance = new Room(roomContents.ENTRACE);
+//        entrance.setCoords(new int[]{0, 0});
+//
+//        Room one = new Room();
+//        one.setCoords(new int[]{0, 0});
+//
+//        Room two = new Room();
+//        two.setCoords(new int[]{1, 0});
+//
+//        Room three = new Room();
+//        three.setCoords(new int[]{1, 1});
+//
+//        connect(one, nodePositions.RIGHT, two);
+//        connect(two, nodePositions.TOP, three);
+//
+//        ArrayList<Room> rule = new ArrayList<>();
+//        rule.add(one);
+//        rule.add(two);
+//        rule.add(three);
+//
+//        System.out.println(rule);
+//
+//        randomlySpinGraph(rule);
+//
+//        System.out.println(rule);
+//    }
 
     /**
      * Update roomsWithUnusedConnections

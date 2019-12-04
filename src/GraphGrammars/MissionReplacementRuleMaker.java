@@ -22,7 +22,7 @@ public class MissionReplacementRuleMaker {
             case 10:
                 return makeStartRules();
             default:
-                throw new IndexOutOfBoundsException("Illegal alphabetValue for MRRM");
+                throw new IndexOutOfBoundsException("Illegal alphabetValue for MRRM: " + alphabetValue);
         }
     }
 
@@ -39,6 +39,16 @@ public class MissionReplacementRuleMaker {
                 firstRule.getNodes().get(firstRule.getNodes().size() - 1), true);
 
         chainRules.add(firstRule);
+
+        MissionGraphNode secondFirstNode = new MissionGraphNode(alphabet.EXPLORATION);
+
+        MissionGraph secondRule = new MissionGraph(secondFirstNode);
+
+        addNodeLinear(secondRule, alphabet.MONSTER_ROOM, secondFirstNode, false);
+        addNodeLinear(secondRule, alphabet.MONSTER_ROOM,
+                secondRule.getNodes().get(secondRule.getNodes().size() - 1), false);
+
+        chainRules.add(secondRule);
 
         return chainRules;
     }

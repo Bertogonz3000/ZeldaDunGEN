@@ -3,8 +3,21 @@ package GraphGrammars;
 public class Experimenter {
 
     public static void main(String[] args) {
-        SpaceGraph testGraph = new SpaceGraph();
-        testGraph.testSomeStuff();
+        testFullPipeline();
+    }
+
+    public static void testFullPipeline() {
+        System.out.println("Running...");
+        MissionGraph testMission = new MissionGraph(new MissionGraphNode(alphabet.START));
+        System.out.println("Starting Mission Replacements...");
+        testMission.runReplacements();
+        System.out.println("Mission replacements done, mission graph: \n");
+        System.out.println(testMission);
+        System.out.println("\nBuilding Space Graph...");
+        SpaceGraph testSpace = new SpaceGraph(testMission);
+        System.out.println("\nSpace Graph Complete: \n");
+        System.out.println(testSpace);
+
     }
 
     public static void testSpaceGraphRuleSelection() {

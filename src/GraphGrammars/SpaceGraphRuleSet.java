@@ -10,18 +10,32 @@ public class SpaceGraphRuleSet {
         this.alphabetValue = alphabetValue;
     }
 
+    //TODO - add cases in here for each of the new rules I just made
     public ArrayList<SpaceGraph> getRuleSet() {
         switch (alphabetValue) {
             case 0:
                 return makeBossLevelSet();
+            case 1:
+                return makeBossMiniSet();
+            case 13:
+                return makeMonsterRoomSet();
             case 4:
-                return makeKeySet();
+                return makeKeySet(false);
+            case 11:
+                return makeKeySet(true);
+            case 6:
+                return makeExplorationSet();
+            case 5:
+                return makeLockSet(false);
+            case 12:
+                return makeLockSet(true);
             default:
                 throw new IndexOutOfBoundsException("Alphabet value must be a real alphabet " +
                         "symbols " +
                         "numval");
         }
     }
+
 
     /**
      * Make rules for a boss level - it is simply one room containing a level boss
@@ -43,11 +57,11 @@ public class SpaceGraphRuleSet {
         return bossLevelSet;
     }
 
-    private ArrayList<SpaceGraph> makeKeySet() {
+    private ArrayList<SpaceGraph> makeKeySet(boolean finalKey) {
         ArrayList<SpaceGraph> keySet = new ArrayList<>();
 
-        SpaceGraph firstRule = makeFirstKeyRule();
-        SpaceGraph secondRule = makeSecondKeyRule();
+        SpaceGraph firstRule = makeFirstKeyRule(finalKey);
+        SpaceGraph secondRule = makeSecondKeyRule(finalKey);
 
         keySet.add(firstRule);
         keySet.add(secondRule);
@@ -55,13 +69,20 @@ public class SpaceGraphRuleSet {
         return keySet;
     }
 
-    private SpaceGraph makeSecondKeyRule() {
+    private SpaceGraph makeSecondKeyRule(boolean finalKey) {
         SpaceGraph secondRule = new SpaceGraph();
 
         //initialize the rooms
         Room firstRoom = new Room();
         Room secondRoom = new Room();
-        Room keyRoom = new Room(roomContents.KEY);
+
+        Room keyRoom;
+
+        if (finalKey) {
+            keyRoom = new Room(roomContents.FINAL_KEY);
+        } else {
+            keyRoom = new Room(roomContents.KEY);
+        }
 
         addRoomForRuleset(secondRule, firstRoom, new int[]{0, 0}, new Room[]{});
         addRoomForRuleset(secondRule, secondRoom, new int[]{1, 0}, new Room[]{firstRoom, null,
@@ -71,13 +92,20 @@ public class SpaceGraphRuleSet {
         return secondRule;
     }
 
-    private SpaceGraph makeFirstKeyRule() {
+    private SpaceGraph makeFirstKeyRule(boolean finalKey) {
         SpaceGraph firstRule = new SpaceGraph();
 
         //Initialize the three rooms
         Room firstRoom = new Room();
         Room secondRoom = new Room();
-        Room keyRoom = new Room(roomContents.KEY);
+
+        Room keyRoom;
+
+        if (finalKey) {
+            keyRoom = new Room(roomContents.FINAL_KEY);
+        } else {
+            keyRoom = new Room(roomContents.KEY);
+        }
 
 
         //Add them to the set, connected to eachother in the correct places.
@@ -87,6 +115,76 @@ public class SpaceGraphRuleSet {
         addRoomForRuleset(firstRule, keyRoom, new int[]{1, 1}, new Room[]{});
 
         return firstRule;
+    }
+
+    private ArrayList<SpaceGraph> makeMonsterRoomSet() {
+        ArrayList<SpaceGraph> rules = new ArrayList<>();
+
+        SpaceGraph firstRule = new SpaceGraph();
+
+        Room onlyRoom = new Room(roomContents.MONSTERS);
+
+        addRoomForRuleset(firstRule, onlyRoom, new int[]{0, 0}, new Room[]{});
+
+        rules.add(firstRule);
+
+        return rules;
+    }
+
+    private ArrayList<SpaceGraph> makeBossMiniSet() {
+        ArrayList<SpaceGraph> rules = new ArrayList<>();
+
+        SpaceGraph firstRule = new SpaceGraph();
+
+        Room onlyRoom = new Room(roomContents.MINI_BOSS);
+
+        addRoomForRuleset(firstRule, onlyRoom, new int[]{0, 0}, new Room[]{});
+
+        rules.add(firstRule);
+
+        return rules;
+    }
+
+    private ArrayList<SpaceGraph> makeExplorationSet() {
+        ArrayList<SpaceGraph> explorationSet = new ArrayList<>();
+
+        SpaceGraph firstRule = new SpaceGraph();
+
+        Room one = new Room();
+        Room two = new Room();
+        Room three = new Room();
+        Room four = new Room();
+        Room five = new Room();
+
+        addRoomForRuleset(firstRule, one, new int[]{0, 0}, new Room[]{});
+        addRoomForRuleset(firstRule, two, new int[]{0, 1}, new Room[]{three, four, five, one});
+        addRoomForRuleset(firstRule, three, new int[]{-1, 1}, new Room[]{});
+        addRoomForRuleset(firstRule, four, new int[]{0, 2}, new Room[]{});
+        addRoomForRuleset(firstRule, five, new int[]{1, 1}, new Room[]{});
+
+        explorationSet.add(firstRule);
+
+        return explorationSet;
+    }
+
+    private ArrayList<SpaceGraph> makeLockSet(boolean finalLock) {
+        ArrayList<SpaceGraph> lockSet = new ArrayList<>();
+
+        SpaceGraph firstrule = new SpaceGraph();
+
+        Room onlyRoom = new Room();
+
+        if (finalLock) {
+            onlyRoom.addContents(roomContents.FINAL_LOCK);
+        } else {
+            onlyRoom.addContents(roomContents.LOCK);
+        }
+
+        addRoomForRuleset(firstrule, onlyRoom, new int[]{0, 0}, new Room[]{});
+
+        lockSet.add(firstrule);
+
+        return lockSet;
     }
 
     /**

@@ -87,12 +87,14 @@ public class MissionGraph {
             throw new IndexOutOfBoundsException("Graph must have nodes to run replacement");
         }
 
+        // TODO - would this be better to do in one pass?
         while (this.hasNonTerminalNodes()) {
             for (int i = 0; i < nodes.size(); i++) {
                 MissionGraphNode currentNode = nodes.get(i);
                 //If the node is non-terminal and non-removable...
                 if (!currentNode.getNodeType().getIsTerminal() && !currentNode.isRemovable()) {
                     //Get the possible rules from its type and choose one
+                    System.out.println(currentNode.getNodeType());
                     ArrayList<MissionGraph> possibleRules =
                             currentNode.getNodeType().getReplacementRules();
                     Random random = new Random();
@@ -105,6 +107,9 @@ public class MissionGraph {
                         nodes.add(newNode);
                         newNode.setId(newNodes.indexOf(newNode));
                     }
+
+                    //TODO - this could use some restructuring for branching - either bringing in
+                    // branchable rules or something...
 
                     //If the current node has a left connection, make it the connection of the
                     // first node in the rule

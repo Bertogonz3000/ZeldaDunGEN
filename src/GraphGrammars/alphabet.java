@@ -8,19 +8,19 @@ public enum alphabet {
     //TODO - if we have two different constructors, is the boolean necessary?
     //The alphabet of symbols to be used in graph grammar.
     BOSS_LEVEL(0, true, new SpaceGraphRuleSet(0)),
-    BOSS_MINI(1, true),
+    BOSS_MINI(1, true, new SpaceGraphRuleSet(1)),
     ENTRANCE(2, true),
     GOAL(3, true),
     KEY(4, true, new SpaceGraphRuleSet(4)),
-    LOCK(5, true),
-    MONSTER_ROOM(13, true),
-    EXPLORATION(6, false),
+    LOCK(5, true, new SpaceGraphRuleSet(5)),
+    MONSTER_ROOM(13, true, new SpaceGraphRuleSet(13)),
+    EXPLORATION(6, true, new SpaceGraphRuleSet(6)),
     CHAIN(7, false, new MissionReplacementRuleMaker(7)),
     FINAL_CHAIN(8, false, new MissionReplacementRuleMaker(8)),
     GATE(9, false),
     START(10, false, new MissionReplacementRuleMaker(10)),
-    FINAL_KEY(11, true),
-    FINAL_LOCK(12, true);
+    FINAL_KEY(11, true, new SpaceGraphRuleSet(11)),
+    FINAL_LOCK(12, true, new SpaceGraphRuleSet(12));
 
     //numerical value of this enum
     private int numVal;
