@@ -4,6 +4,13 @@ import java.util.ArrayList;
 
 public class SpaceGraphRuleSet {
 
+    //TODO - create more rules like the + shaped one, they seem to offer excellent branching and
+    // more classic dungeon structures.  Don't think we need to worry about restricting and
+    // opening up new viable corners if we just have better structures like that
+
+    //TODO - change up the exploration nodes, shouldn't have any boring deadends...they should
+    // all offer something.
+
     private int alphabetValue;
 
     public SpaceGraphRuleSet(int alphabetValue) {
@@ -62,11 +69,26 @@ public class SpaceGraphRuleSet {
 
         SpaceGraph firstRule = makeFirstKeyRule(finalKey);
         SpaceGraph secondRule = makeSecondKeyRule(finalKey);
+        SpaceGraph thirdRule = makeThirdKeyRule(finalKey);
 
         keySet.add(firstRule);
         keySet.add(secondRule);
+        keySet.add(thirdRule);
 
         return keySet;
+    }
+
+    private SpaceGraph makeThirdKeyRule(boolean finalKey) {
+        SpaceGraph thirdRule = new SpaceGraph();
+
+        Room firstRoom = new Room();
+        Room keyRoom = finalKey ? new Room(roomContents.FINAL_KEY) : new Room(roomContents.KEY);
+
+        addRoomForRuleset(thirdRule, firstRoom, new int[]{0, 0}, new Room[]{});
+        addRoomForRuleset(thirdRule, keyRoom, new int[]{0, 1}, new Room[]{null, null, null,
+                firstRoom});
+
+        return thirdRule;
     }
 
     private SpaceGraph makeSecondKeyRule(boolean finalKey) {
@@ -128,6 +150,36 @@ public class SpaceGraphRuleSet {
 
         rules.add(firstRule);
 
+
+        SpaceGraph secondRule = new SpaceGraph();
+
+        Room monsterRoom = new Room(roomContents.MONSTERS);
+        Room rupeeRoom = new Room(roomContents.RUPEE);
+
+        addRoomForRuleset(secondRule, monsterRoom, new int[]{0, 0}, new Room[]{});
+        addRoomForRuleset(secondRule, rupeeRoom, new int[]{0, 1}, new Room[]{null, null, null,
+                monsterRoom});
+
+        rules.add(secondRule);
+
+
+        SpaceGraph thirdRule = new SpaceGraph();
+
+        Room first = new Room(roomContents.MONSTERS);
+        Room second = new Room(roomContents.MONSTERS);
+        Room third = new Room(roomContents.RUPEE);
+        Room fourth = new Room(roomContents.RUPEE);
+        Room fifth = new Room(roomContents.RUPEE);
+
+        addRoomForRuleset(thirdRule, first, new int[]{0, 0}, new Room[]{});
+        addRoomForRuleset(thirdRule, second, new int[]{0, 1}, new Room[]{fourth, fifth, third,
+                first});
+        addRoomForRuleset(thirdRule, third, new int[]{1, 1}, new Room[]{});
+        addRoomForRuleset(thirdRule, fourth, new int[]{-1, 1}, new Room[]{});
+        addRoomForRuleset(thirdRule, fifth, new int[]{0, 2}, new Room[]{});
+
+        rules.add(thirdRule);
+
         return rules;
     }
 
@@ -141,6 +193,19 @@ public class SpaceGraphRuleSet {
         addRoomForRuleset(firstRule, onlyRoom, new int[]{0, 0}, new Room[]{});
 
         rules.add(firstRule);
+
+
+        SpaceGraph secondRule = new SpaceGraph();
+
+        Room bossRoom = new Room(roomContents.MINI_BOSS);
+        Room rupeeRoom = new Room(roomContents.RUPEE);
+
+        //left, top, right, bottom
+        addRoomForRuleset(secondRule, bossRoom, new int[]{0, 0}, new Room[]{});
+        addRoomForRuleset(secondRule, rupeeRoom, new int[]{0, 1}, new Room[]{null, null, null,
+                bossRoom});
+
+        rules.add(secondRule);
 
         return rules;
     }

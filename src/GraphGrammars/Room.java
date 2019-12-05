@@ -139,4 +139,60 @@ public class Room {
         }
         return builder.toString();
     }
+
+    /**
+     * Returns a graph viz compatible string
+     *
+     * @return
+     */
+    public String getGVString() {
+        StringBuilder gvString = new StringBuilder();
+
+        for (Room room : connections) {
+            if (room != null) {
+                gvString.append(getGVNodeName()).append(" -- ").append(room.getGVNodeName()).append(";\n");
+            }
+        }
+
+        return gvString.toString();
+    }
+
+    //TODO - if we end up adding more than one thing to contents, this ain't gonna work
+
+    /**
+     * Return this room as a Graph viz node
+     *
+     * @return
+     */
+    public String getGVNodeName() {
+        if (contents.isEmpty()) {
+            return getGVCoords();
+        }
+        return contents.get(0) + getGVCoords();
+    }
+
+    /**
+     * Return this rooms coords as graph viz code
+     *
+     * @return
+     */
+    public String getGVCoords() {
+        StringBuilder coordsBuilder = new StringBuilder();
+
+        coordsBuilder.append("X");
+
+        if (coords[0] < 0) {
+            coordsBuilder.append("neg");
+        }
+
+        coordsBuilder.append(Math.abs(coords[0])).append("Y");
+
+        if (coords[1] < 0) {
+            coordsBuilder.append("neg");
+        }
+
+        coordsBuilder.append(Math.abs(coords[1]));
+
+        return coordsBuilder.toString();
+    }
 }

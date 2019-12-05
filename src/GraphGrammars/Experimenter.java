@@ -1,12 +1,18 @@
 package GraphGrammars;
 
+import java.io.IOException;
+
 public class Experimenter {
 
     public static void main(String[] args) {
-        testFullPipeline();
+        try {
+            testFullPipeline();
+        } catch (Exception e) {
+            System.out.println("WOOPS!");
+        }
     }
 
-    public static void testFullPipeline() {
+    public static void testFullPipeline() throws IOException, InterruptedException {
         System.out.println("Running...");
         MissionGraph testMission = new MissionGraph(new MissionGraphNode(alphabet.START));
         System.out.println("Starting Mission Replacements...");
@@ -18,6 +24,41 @@ public class Experimenter {
         System.out.println("\nSpace Graph Complete: \n");
         System.out.println(testSpace);
 
+        System.out.println(testMission.getGVString());
+
+        System.out.println(testSpace.getGVString());
+
+        System.out.println("Writing to files...");
+        testMission.writeToOutputFile();
+        testSpace.writeToOutputFile();
+
+        System.out.println("Running commands...");
+
+        Runtime rt = Runtime.getRuntime();
+
+        Process missionProcess = rt.exec("dot -Tpng /Users/berto/Desktop/Pomona4thyr/ai" +
+                "/final_project/gvStuff/missionGraph.gv -o " +
+                "/Users/berto/Desktop/Pomona4thyr/ai/final_project/gvStuff/mission.png");
+
+        missionProcess.waitFor();
+
+        Process openMission = rt.exec("open /Users/berto/Desktop/Pomona4thyr/ai/final_project" +
+                "/gvStuff/mission.png");
+
+        openMission.waitFor();
+
+        Process spaceProcess = rt.exec("dot -Tpng /Users/berto/Desktop/Pomona4thyr/ai" +
+                "/final_project/gvStuff/spaceGraph.gv -o " +
+                "/Users/berto/Desktop/Pomona4thyr/ai/final_project/gvStuff/space.png");
+
+        spaceProcess.waitFor();
+
+        Process openSpace = rt.exec("open /Users/berto/Desktop/Pomona4thyr/ai/final_project" +
+                "/gvStuff/space.png");
+
+        openSpace.waitFor();
+
+        System.out.println("Complete!");
     }
 
     public static void testSpaceGraphRuleSelection() {

@@ -133,4 +133,23 @@ public class MissionGraphNode {
 
         return aggString.toString();
     }
+
+    /**
+     * Returns this mission graph as a graph viz compatible string
+     *
+     * @return
+     */
+    public String getGVString() {
+        StringBuilder gvString = new StringBuilder();
+
+        for (int i = 0; i < connections.length; i++) {
+            if (connections[i] != null && !(connections[i].getPointingTo() == this)) {
+                MissionGraphNode nextNode = connections[i].getPointingTo();
+                gvString.append(nodeType.toString()).append(id).append(" -> ").
+                        append(nextNode.nodeType).append(nextNode.id).append("\n");
+            }
+        }
+
+        return gvString.toString();
+    }
 }

@@ -6,6 +6,9 @@ public class MissionReplacementRuleMaker {
 
     private int alphabetValue;
 
+    //TODO - insert more keys and locks (ex: around chains in start rules), create more and
+    // varied start rules.
+
     /**
      * 0 param constructor
      */
@@ -49,6 +52,15 @@ public class MissionReplacementRuleMaker {
                 secondRule.getNodes().get(secondRule.getNodes().size() - 1), false);
 
         chainRules.add(secondRule);
+
+        MissionGraph thirdRule = new MissionGraph(new MissionGraphNode(alphabet.KEY));
+
+        addNodeLinear(thirdRule, alphabet.CHAIN,
+                thirdRule.getNodes().get(thirdRule.getNodes().size() - 1), false);
+        addNodeLinear(thirdRule, alphabet.LOCK,
+                thirdRule.getNodes().get(thirdRule.getNodes().size() - 1), false);
+
+        chainRules.add(thirdRule);
 
         return chainRules;
     }

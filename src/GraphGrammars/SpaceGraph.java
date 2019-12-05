@@ -1,6 +1,10 @@
 package GraphGrammars;
 
 import javax.naming.SizeLimitExceededException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,9 +17,9 @@ public class SpaceGraph {
     // strucutres, maybe we only want to do this "sections" thing in certain situations, like
     // when we have a lock with a key behind it.
 
-
     //TODO - two next things: figure out a way to connect rooms in the same "level" of the graph
     // (like behind the same locks) and figure out where it gets stuck sometimes.
+
     //List of all the rooms in this space graph
     private ArrayList<Room> rooms = new ArrayList<>();
 
@@ -61,8 +65,7 @@ public class SpaceGraph {
 
         //Ensure it's an entrance node and, if so, set it up as the first node in the graph, with
         // all unused doors
-        Room entranceRoom = setupEntranceRoom(entranceNode);
-        viableRooms.add(entranceRoom);
+        setupEntranceRoom(entranceNode);
 
         //Recursively handle each node in the mission graph
         useMissionGraphNode(entranceNode);
@@ -152,7 +155,7 @@ public class SpaceGraph {
         }
     }
 
-    //TODO - decide if this should make sure the graph starts at (0,0)
+    //TODO - fix connections as well, not just coords
     private void randomlySpinGraph(ArrayList<Room> rooms) {
         //Randomly get the number of shifts to perform
         Random random = new Random();
@@ -466,6 +469,9 @@ public class SpaceGraph {
         Room entranceRoom = new Room(roomContents.ENTRACE);
         entranceRoom.setCoords(new int[]{0, 0});
 
+        rooms.add(entranceRoom);
+        viableRooms.add(entranceRoom);
+
         return entranceRoom;
     }
 
@@ -477,5 +483,45 @@ public class SpaceGraph {
         }
 
         return builder.toString();
+    }
+
+    /**
+     * Returns a graph viz compliant string
+     */
+    public String getGVString() {
+        StringBuilder gvString = new StringBuilder("graph space {\n");
+
+        gvString.append(getRoomsGVNodeNames());
+
+        for (Room room : rooms) {
+            gvString.append(room.getGVString());
+        }
+
+        gvString.append("}");
+
+        return gvString.toString();
+    }
+
+    /**
+     * Returns the header for this graph's gv string
+     */
+    public String getRoomsGVNodeNames() {
+        StringBuilder nodeNames = new StringBuilder("node [shape=box]; ");
+
+        for (Room room : rooms) {
+            nodeNames.append(room.getGVNodeName()).append("; ");
+        }
+
+        return nodeNames.append("\n").toString();
+    }
+
+    /**
+     * Write graphviz string to file
+     */
+    public void writeToOutputFile() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/berto/Desktop" +
+                "/Pomona4thyr/ai/final_project/gvStuff/spaceGraph.gv"));
+        writer.write(getGVString());
+        writer.close();
     }
 }

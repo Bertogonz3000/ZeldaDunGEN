@@ -10,12 +10,13 @@ public enum roomContents {
     KEY,
     LOCK,
     MONSTERS,
+    RUPEE,
     FINAL_KEY,
     FINAL_LOCK;
 
     @Override
     public String toString() {
-        switch (this){
+        switch (this) {
             case LEVEL_BOSS:
                 return "level_boss";
             case MINI_BOSS:
@@ -34,6 +35,8 @@ public enum roomContents {
                 return "final_key";
             case FINAL_LOCK:
                 return "final_lock";
+            case RUPEE:
+                return "rupee";
         }
         return "none";
     }

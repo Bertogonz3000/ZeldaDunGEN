@@ -1,6 +1,9 @@
 package GraphGrammars;
 
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -163,5 +166,29 @@ public class MissionGraph {
             aggString.append(node.toString()).append("\n");
         }
         return aggString.toString();
+    }
+
+    /**
+     * Returns this mission graph as a graph viz compatible string
+     *
+     * @return
+     */
+    public String getGVString() {
+        StringBuilder gvString = new StringBuilder("digraph mission {\n");
+        for (MissionGraphNode node : nodes) {
+            gvString.append(node.getGVString());
+        }
+        gvString.append("}");
+        return gvString.toString();
+    }
+
+    /**
+     * Create an output file and write the graphviz string to it
+     */
+    public void writeToOutputFile() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/berto/Desktop" +
+                "/Pomona4thyr/ai/final_project/gvStuff/missionGraph.gv"));
+        writer.write(getGVString());
+        writer.close();
     }
 }
