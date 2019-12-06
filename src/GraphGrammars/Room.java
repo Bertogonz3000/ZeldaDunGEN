@@ -166,9 +166,9 @@ public class Room {
      */
     public String getGVNodeName() {
         if (contents.isEmpty()) {
-            return getGVCoords();
+            return getGVCoordsForLabel();
         }
-        return contents.get(0) + getGVCoords();
+        return contents.get(0) + getGVCoordsForLabel();
     }
 
     /**
@@ -176,7 +176,7 @@ public class Room {
      *
      * @return
      */
-    public String getGVCoords() {
+    public String getGVCoordsForLabel() {
         StringBuilder coordsBuilder = new StringBuilder();
 
         coordsBuilder.append("X");
@@ -194,5 +194,14 @@ public class Room {
         coordsBuilder.append(Math.abs(coords[1]));
 
         return coordsBuilder.toString();
+    }
+
+    /**
+     * Return graph viz string that allows positioning in the graph.
+     *
+     * @return
+     */
+    public String getGVCoordsForPosition() {
+        return "\"" + coords[0] + "," + coords[1] + "!\"";
     }
 }

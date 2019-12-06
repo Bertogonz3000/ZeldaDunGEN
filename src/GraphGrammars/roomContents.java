@@ -11,6 +11,7 @@ public enum roomContents {
     LOCK,
     MONSTERS,
     RUPEE,
+    EXPLORATION,
     FINAL_KEY,
     FINAL_LOCK;
 
@@ -37,6 +38,8 @@ public enum roomContents {
                 return "final_lock";
             case RUPEE:
                 return "rupee";
+            case EXPLORATION:
+                return "exploration";
         }
         return "none";
     }

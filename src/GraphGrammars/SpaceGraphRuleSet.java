@@ -1,6 +1,7 @@
 package GraphGrammars;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SpaceGraphRuleSet {
 
@@ -8,16 +9,12 @@ public class SpaceGraphRuleSet {
     // more classic dungeon structures.  Don't think we need to worry about restricting and
     // opening up new viable corners if we just have better structures like that
 
-    //TODO - change up the exploration nodes, shouldn't have any boring deadends...they should
-    // all offer something.
-
     private int alphabetValue;
 
     public SpaceGraphRuleSet(int alphabetValue) {
         this.alphabetValue = alphabetValue;
     }
 
-    //TODO - add cases in here for each of the new rules I just made
     public ArrayList<SpaceGraph> getRuleSet() {
         switch (alphabetValue) {
             case 0:
@@ -183,6 +180,7 @@ public class SpaceGraphRuleSet {
         return rules;
     }
 
+    //TODO - decide if mini bosses should always have rewards
     private ArrayList<SpaceGraph> makeBossMiniSet() {
         ArrayList<SpaceGraph> rules = new ArrayList<>();
 
@@ -215,11 +213,11 @@ public class SpaceGraphRuleSet {
 
         SpaceGraph firstRule = new SpaceGraph();
 
-        Room one = new Room();
-        Room two = new Room();
-        Room three = new Room();
-        Room four = new Room();
-        Room five = new Room();
+        Room one = new Room(getRandomContents());
+        Room two = new Room(getRandomContents());
+        Room three = new Room(getRandomContents());
+        Room four = new Room(getRandomContents());
+        Room five = new Room(getRandomContents());
 
         addRoomForRuleset(firstRule, one, new int[]{0, 0}, new Room[]{});
         addRoomForRuleset(firstRule, two, new int[]{0, 1}, new Room[]{three, four, five, one});
@@ -230,6 +228,29 @@ public class SpaceGraphRuleSet {
         explorationSet.add(firstRule);
 
         return explorationSet;
+    }
+
+    /**
+     * To get some real randomness in the mix, return a random roomContents for the exploration
+     * rules.
+     *
+     * @return
+     */
+    private roomContents getRandomContents() {
+        Random contentsSelector = new Random();
+
+        switch (contentsSelector.nextInt(4)) {
+            case 0:
+                return roomContents.MONSTERS;
+            case 1:
+                return roomContents.RUPEE;
+            case 2:
+                return roomContents.MINI_BOSS;
+            case 3:
+                return roomContents.EXPLORATION;
+            default:
+                throw new IndexOutOfBoundsException("This shouldn't be possible");
+        }
     }
 
     private ArrayList<SpaceGraph> makeLockSet(boolean finalLock) {

@@ -47,7 +47,7 @@ public class Experimenter {
 
         openMission.waitFor();
 
-        Process spaceProcess = rt.exec("dot -Tpng /Users/berto/Desktop/Pomona4thyr/ai" +
+        Process spaceProcess = rt.exec("fdp -Tpng /Users/berto/Desktop/Pomona4thyr/ai" +
                 "/final_project/gvStuff/spaceGraph.gv -o " +
                 "/Users/berto/Desktop/Pomona4thyr/ai/final_project/gvStuff/space.png");
 

@@ -29,6 +29,7 @@ public class MissionReplacementRuleMaker {
         }
     }
 
+    //TODO - there may be too many mini bosses now
     private static ArrayList<MissionGraph> makeChainRules() {
         ArrayList<MissionGraph> chainRules = new ArrayList<>();
 
@@ -48,7 +49,7 @@ public class MissionReplacementRuleMaker {
         MissionGraph secondRule = new MissionGraph(secondFirstNode);
 
         addNodeLinear(secondRule, alphabet.MONSTER_ROOM, secondFirstNode, false);
-        addNodeLinear(secondRule, alphabet.MONSTER_ROOM,
+        addNodeLinear(secondRule, alphabet.BOSS_MINI,
                 secondRule.getNodes().get(secondRule.getNodes().size() - 1), false);
 
         chainRules.add(secondRule);
@@ -61,6 +62,32 @@ public class MissionReplacementRuleMaker {
                 thirdRule.getNodes().get(thirdRule.getNodes().size() - 1), false);
 
         chainRules.add(thirdRule);
+
+        MissionGraph fourthRule = new MissionGraph(new MissionGraphNode(alphabet.KEY));
+
+        addNodeLinear(fourthRule, alphabet.MONSTER_ROOM,
+                fourthRule.getNodes().get(fourthRule.getNodes().size() - 1), false);
+        addNodeLinear(fourthRule, alphabet.BOSS_MINI,
+                fourthRule.getNodes().get(fourthRule.getNodes().size() - 1), false);
+        addNodeLinear(fourthRule, alphabet.LOCK,
+                fourthRule.getNodes().get(fourthRule.getNodes().size() - 1), false);
+
+        chainRules.add(fourthRule);
+
+        MissionGraph fifthRule = new MissionGraph(new MissionGraphNode(alphabet.KEY));
+
+        //TODO should I add a mini boss to this rule? maybe take one out of another? already some
+        // have a lot
+        addNodeLinear(fifthRule, alphabet.MONSTER_ROOM,
+                fifthRule.getNodes().get(fifthRule.getNodes().size() - 1), false);
+        addNodeLinear(fifthRule, alphabet.LOCK,
+                fifthRule.getNodes().get(fifthRule.getNodes().size() - 1), false);
+        addNodeLinear(fifthRule, alphabet.KEY,
+                fifthRule.getNodes().get(fifthRule.getNodes().size() - 1), false);
+        addNodeLinear(fifthRule, alphabet.EXPLORATION,
+                fifthRule.getNodes().get(fifthRule.getNodes().size() - 1), false);
+        addNodeLinear(fifthRule, alphabet.LOCK,
+                fifthRule.getNodes().get(fifthRule.getNodes().size() - 1), false);
 
         return chainRules;
     }

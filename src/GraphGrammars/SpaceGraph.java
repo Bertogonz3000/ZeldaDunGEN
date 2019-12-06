@@ -12,14 +12,6 @@ import java.util.Random;
 
 public class SpaceGraph {
 
-    //TODO - think about ways to enforce "sections" in the map, such that behind any lock, we are
-    // forced oto build only off of nodes after that lock - that or come up with some other
-    // strucutres, maybe we only want to do this "sections" thing in certain situations, like
-    // when we have a lock with a key behind it.
-
-    //TODO - two next things: figure out a way to connect rooms in the same "level" of the graph
-    // (like behind the same locks) and figure out where it gets stuck sometimes.
-
     //List of all the rooms in this space graph
     private ArrayList<Room> rooms = new ArrayList<>();
 
@@ -69,33 +61,10 @@ public class SpaceGraph {
 
         //Recursively handle each node in the mission graph
         useMissionGraphNode(entranceNode);
-
-        //For each  node in the mission graph...
-
-        //  Iterate over its connections (top, right, and bottom, since it goes left to right).
-        //  For each one found...
-        //      Get the rules associated with it...
-        //      while a successful rule hasn't been chosen...
-        //          Randomly Choose one, and mark it as chosen...somehow
-        //          Then, choose a random open position on the space graph (these should all be
-        //          added to an
-        //          array or something)
-        //          TODO - decide if we want to also choose a random spot on the rule to connect
-        //           to...this could lead to more trouble though, so IDK
-        //          With this position in the space graph, check if the selected rule would fit
-        //          based on
-        //              its position in 2D space
-        //          If it doesn't fit, loop again
-        //      Apply the rule by adding it to the space graph
     }
 
     //TODO - decide if we need to worry about tightly connected edges...if we don't have rules
     // for them it might not make sense... not even really sure how we would add rules for them
-
-
-    //TODO - when it comes to branching, it might be a good idea to have viable rooms saved, or
-    // to reload them after a branch.  We don't necessarily want branches to lock off new
-    // sections;..they should be exploratory
 
     /**
      * Takes a mission graph node, and for each neighbor, continues to build the space graph
@@ -139,7 +108,13 @@ public class SpaceGraph {
         //Spin the graph to add more randomness
         randomlySpinGraph(ruleRooms);
         boolean applicationFailed = true;
+        int count = 0;
         while (applicationFailed) {
+            count++;
+            if (count >= 50) {
+                extendGraph(newNode);
+                break;
+            }
             //Select a room to extend off of
             Room base = selectRandomViableRoom();
             //Select a side of the room to build off of
@@ -212,35 +187,6 @@ public class SpaceGraph {
             room.setCoords(new int[]{coords[1], -coords[0]});
         }
     }
-
-    //TODO - get rid of this testing method
-//    public void testSomeStuff() {
-//        Room entrance = new Room(roomContents.ENTRACE);
-//        entrance.setCoords(new int[]{0, 0});
-//
-//        Room one = new Room();
-//        one.setCoords(new int[]{0, 0});
-//
-//        Room two = new Room();
-//        two.setCoords(new int[]{1, 0});
-//
-//        Room three = new Room();
-//        three.setCoords(new int[]{1, 1});
-//
-//        connect(one, nodePositions.RIGHT, two);
-//        connect(two, nodePositions.TOP, three);
-//
-//        ArrayList<Room> rule = new ArrayList<>();
-//        rule.add(one);
-//        rule.add(two);
-//        rule.add(three);
-//
-//        System.out.println(rule);
-//
-//        randomlySpinGraph(rule);
-//
-//        System.out.println(rule);
-//    }
 
     /**
      * Update roomsWithUnusedConnections
@@ -398,8 +344,6 @@ public class SpaceGraph {
                 break;
         }
 
-        //TODO - come here if there are issues with placement
-
         adjustedCoords.add(newOriginCoords);
 
         //Now that we have the new origin, each new adjusted coords becomes origin+Coords
@@ -506,10 +450,10 @@ public class SpaceGraph {
      * Returns the header for this graph's gv string
      */
     public String getRoomsGVNodeNames() {
-        StringBuilder nodeNames = new StringBuilder("node [shape=box]; ");
+        StringBuilder nodeNames = new StringBuilder("\nnode [shape=\"box\"]; ");
 
         for (Room room : rooms) {
-            nodeNames.append(room.getGVNodeName()).append("; ");
+            nodeNames.append(room.getGVNodeName()).append(" [pad=\"1.5,0.0\" pos=").append(room.getGVCoordsForPosition()).append("]").append("; ");
         }
 
         return nodeNames.append("\n").toString();
