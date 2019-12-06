@@ -239,14 +239,12 @@ public class SpaceGraphRuleSet {
     private roomContents getRandomContents() {
         Random contentsSelector = new Random();
 
-        switch (contentsSelector.nextInt(4)) {
+        switch (contentsSelector.nextInt(3)) {
             case 0:
                 return roomContents.MONSTERS;
             case 1:
                 return roomContents.RUPEE;
             case 2:
-                return roomContents.MINI_BOSS;
-            case 3:
                 return roomContents.EXPLORATION;
             default:
                 throw new IndexOutOfBoundsException("This shouldn't be possible");

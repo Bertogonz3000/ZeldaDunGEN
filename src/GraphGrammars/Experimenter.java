@@ -17,16 +17,10 @@ public class Experimenter {
         MissionGraph testMission = new MissionGraph(new MissionGraphNode(alphabet.START));
         System.out.println("Starting Mission Replacements...");
         testMission.runReplacements();
-        System.out.println("Mission replacements done, mission graph: \n");
-        System.out.println(testMission);
+        System.out.println("Mission replacements done");
         System.out.println("\nBuilding Space Graph...");
         SpaceGraph testSpace = new SpaceGraph(testMission);
-        System.out.println("\nSpace Graph Complete: \n");
-        System.out.println(testSpace);
-
-        System.out.println(testMission.getGVString());
-
-        System.out.println(testSpace.getGVString());
+        System.out.println("\nSpace Graph Complete \n");
 
         System.out.println("Writing to files...");
         testMission.writeToOutputFile();

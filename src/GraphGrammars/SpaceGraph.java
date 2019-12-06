@@ -5,10 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.Buffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 public class SpaceGraph {
 
@@ -60,7 +57,16 @@ public class SpaceGraph {
         setupEntranceRoom(entranceNode);
 
         //Recursively handle each node in the mission graph
-        useMissionGraphNode(entranceNode);
+        int count = 0;
+        try {
+            useMissionGraphNode(entranceNode);
+        } catch (StackOverflowError e) {
+            count++;
+            System.out.println("Houston we have overflow: " + count);
+            rooms.clear();
+            viableRooms.clear();
+            build(mission);
+        }
     }
 
     //TODO - decide if we need to worry about tightly connected edges...if we don't have rules
@@ -71,7 +77,7 @@ public class SpaceGraph {
      *
      * @param node
      */
-    private void useMissionGraphNode(MissionGraphNode node) {
+    private void useMissionGraphNode(MissionGraphNode node) throws StackOverflowError {
         MissionGraphEdge[] nodeConnections = node.getConnections();
         //in order: top, bottom, right, fill the graph using this node's connections
         //Leaving out getting ints from nodePositions to save time
@@ -86,7 +92,7 @@ public class SpaceGraph {
      * @param node - the node we're moving from
      * @param edge - the edge of the input node that we want to move to next
      */
-    private void useHelper(MissionGraphNode node, MissionGraphEdge edge) {
+    private void useHelper(MissionGraphNode node, MissionGraphEdge edge) throws StackOverflowError {
         //If there really is a connection there, and it's pointing away from this node...
         if (edge != null && edge.getPointingTo() != node) {
             MissionGraphNode newNode = edge.getPointingTo();
@@ -102,7 +108,7 @@ public class SpaceGraph {
      *
      * @param newNode - MissionGraphNode to based this expansion on
      */
-    private void extendGraph(MissionGraphNode newNode) {
+    private void extendGraph(MissionGraphNode newNode) throws StackOverflowError {
         //Select the rule to apply, and get its list of rooms
         ArrayList<Room> ruleRooms = selectRandomRule(newNode).rooms;
         //Spin the graph to add more randomness
@@ -111,7 +117,7 @@ public class SpaceGraph {
         int count = 0;
         while (applicationFailed) {
             count++;
-            if (count >= 50) {
+            if (count >= 100) {
                 extendGraph(newNode);
                 break;
             }

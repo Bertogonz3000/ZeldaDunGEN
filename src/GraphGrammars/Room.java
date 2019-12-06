@@ -33,7 +33,8 @@ public class Room {
      * @param content
      */
     public Room(roomContents content) {
-        contents.add(content);
+            contents.add(content);
+
     }
 
     /**

@@ -97,7 +97,6 @@ public class MissionGraph {
                 //If the node is non-terminal and non-removable...
                 if (!currentNode.getNodeType().getIsTerminal() && !currentNode.isRemovable()) {
                     //Get the possible rules from its type and choose one
-                    System.out.println(currentNode.getNodeType());
                     ArrayList<MissionGraph> possibleRules =
                             currentNode.getNodeType().getReplacementRules();
                     Random random = new Random();

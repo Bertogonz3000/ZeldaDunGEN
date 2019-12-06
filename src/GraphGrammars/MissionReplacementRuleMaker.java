@@ -54,6 +54,7 @@ public class MissionReplacementRuleMaker {
 
         chainRules.add(secondRule);
 
+        //TODO - comment/uncomment this
         MissionGraph thirdRule = new MissionGraph(new MissionGraphNode(alphabet.KEY));
 
         addNodeLinear(thirdRule, alphabet.CHAIN,
@@ -103,6 +104,18 @@ public class MissionReplacementRuleMaker {
                 firstRule.getNodes().get(firstRule.getNodes().size() - 1), false);
 
         finalChainRules.add(firstRule);
+
+        MissionGraph secondRule = new MissionGraph(new MissionGraphNode(alphabet.FINAL_KEY));
+
+        addNodeLinear(secondRule, alphabet.CHAIN,
+                secondRule.getNodes().get(secondRule.getNodes().size() - 1), false);
+
+        addNodeLinear(secondRule, alphabet.FINAL_LOCK,
+                secondRule.getNodes().get(secondRule.getNodes().size() - 1), false);
+        addNodeLinear(secondRule, alphabet.BOSS_LEVEL,
+                secondRule.getNodes().get(secondRule.getNodes().size() - 1), false);
+
+        finalChainRules.add(secondRule);
 
         return finalChainRules;
     }
