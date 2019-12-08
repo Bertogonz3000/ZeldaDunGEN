@@ -9,10 +9,52 @@ public class Experimenter {
             testFullPipeline();
         } catch (Exception e) {
             System.out.println("WOOPS!");
+            e.printStackTrace();
         }
     }
 
-    public static void testFullPipeline() throws IOException, InterruptedException {
+    private static void testGenStrings() {
+        Room monsterRoom = new Room(roomContents.MONSTERS);
+        Room keyRoom = new Room(roomContents.KEY);
+        Room finalKeyRoom = new Room(roomContents.FINAL_KEY);
+        Room miniBossRoom = new Room(roomContents.MINI_BOSS);
+        Room levelBossRoom = new Room(roomContents.LEVEL_BOSS);
+        Room goalRoom = new Room(roomContents.GOAL);
+        Room entrance = new Room(roomContents.ENTRACE);
+        Room rupeeRoom = new Room(roomContents.RUPEE);
+        Room exploration = new Room(roomContents.EXPLORATION);
+        Room lockRoom = new Room(roomContents.LOCK);
+        Room finalLockRoom = new Room(roomContents.FINAL_LOCK);
+
+        exploration.setConnection(nodePositions.RIGHT, lockRoom);
+        lockRoom.setConnection(nodePositions.LEFT, exploration);
+        exploration.lockDoor(nodePositions.RIGHT);
+
+        System.out.println("miniboss:");
+        System.out.println(miniBossRoom.getGenerationString());
+        System.out.println("monster:");
+        System.out.println(monsterRoom.getGenerationString());
+        System.out.println("key:");
+        System.out.println(keyRoom.getGenerationString());
+        System.out.println("finalkey:");
+        System.out.println(finalKeyRoom.getGenerationString());
+        System.out.println("levelBoss:");
+        System.out.println(levelBossRoom.getGenerationString());
+        System.out.println("entrance:");
+        System.out.println(entrance.getGenerationString());
+        System.out.println("finalLock:");
+        System.out.println(finalLockRoom.getGenerationString());
+        System.out.println("rupee:");
+        System.out.println(rupeeRoom.getGenerationString());
+        System.out.println("goal:");
+        System.out.println(goalRoom.getGenerationString());
+        System.out.println("exploration:");
+        System.out.println(exploration.getGenerationString());
+        System.out.println("lock:");
+        System.out.println(lockRoom.getGenerationString());
+    }
+
+    private static void testFullPipeline() throws IOException, InterruptedException {
         System.out.println("Running...");
         MissionGraph testMission = new MissionGraph(new MissionGraphNode(alphabet.START));
         System.out.println("Starting Mission Replacements...");
@@ -21,7 +63,8 @@ public class Experimenter {
         System.out.println("\nBuilding Space Graph...");
         SpaceGraph testSpace = new SpaceGraph(testMission);
         System.out.println("\nSpace Graph Complete \n");
-
+        System.out.println(testSpace);
+        System.out.println("\n\n" + testSpace.getGVString());
         System.out.println("Writing to files...");
         testMission.writeToOutputFile();
         testSpace.writeToOutputFile();
@@ -55,7 +98,7 @@ public class Experimenter {
         System.out.println("Complete!");
     }
 
-    public static void testSpaceGraphRuleSelection() {
+    private static void testSpaceGraphRuleSelection() {
         MissionGraphNode entranceNode = new MissionGraphNode(alphabet.ENTRANCE);
         MissionGraph testGraph = new MissionGraph(entranceNode);
         MissionReplacementRuleMaker.addNodeLinear(testGraph, alphabet.KEY, entranceNode, false);
@@ -63,7 +106,7 @@ public class Experimenter {
         SpaceGraph testSpace = new SpaceGraph(testGraph);
     }
 
-    public static void testMissionGraphReplacements() {
+    private static void testMissionGraphReplacements() {
         System.out.println("Running...");
         MissionGraph testGraph = new MissionGraph(new MissionGraphNode(alphabet.START));
         System.out.println("Starting Mission Replacements...");
@@ -73,7 +116,7 @@ public class Experimenter {
         System.out.println("\n");
     }
 
-    public static void testSpaceRule(alphabet symbol) {
+    private static void testSpaceRule(alphabet symbol) {
         SpaceGraphRuleSet sgrs = new SpaceGraphRuleSet(symbol.getNumVal());
         System.out.println(sgrs.getRuleSet());
     }

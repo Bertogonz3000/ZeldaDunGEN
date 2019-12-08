@@ -33,7 +33,7 @@ public class Room {
      * @param content
      */
     public Room(roomContents content) {
-            contents.add(content);
+        contents.add(content);
 
     }
 
@@ -204,5 +204,50 @@ public class Room {
      */
     public String getGVCoordsForPosition() {
         return "\"" + coords[0] + "," + coords[1] + "!\"";
+    }
+
+    /**
+     * @return - a string version of this room that should be used as input for an ASP program.
+     */
+    public String getGenerationString() {
+        StringBuilder genBuilder = new StringBuilder();
+
+        //Add door lines
+        genBuilder.append(getDoorsForGeneration());
+
+        //Add room contents, if any (monsters, items, bosses, exploration).
+        genBuilder.append(contents.get(0).getGenerationString());
+
+        return genBuilder.toString();
+    }
+
+    private String getDoorsForGeneration() {
+        StringBuilder genBuilder = new StringBuilder();
+
+        //Create lines for doors, closed, locked, and final
+        for (int i = 0; i < connections.length; i++) {
+            //If there really is a connection here...
+            if (connections[i] != null) {
+                //TODO - this could change if we just want to have one single item in each room
+                ArrayList<roomContents> contents = connections[i].getContents();
+
+                //The type of the door - lock, final lock, or open(unlocked)
+                String doorType;
+
+                //Check the type and append the corresponding line
+                if (contents.contains(roomContents.LOCK)) {
+                    doorType = "locked";
+                } else if (contents.contains(roomContents.FINAL_LOCK)) {
+                    doorType = "final_locked";
+                } else {
+                    doorType = "open";
+                }
+
+                //Append the direction
+                genBuilder.append("door(").append(nodePositions.getPositionForInt(i)).append(",").append(doorType).append(")\n");
+            }
+        }
+
+        return genBuilder.toString();
     }
 }

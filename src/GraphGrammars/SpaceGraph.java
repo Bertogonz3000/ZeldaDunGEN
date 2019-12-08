@@ -15,6 +15,8 @@ public class SpaceGraph {
     //List of all rooms in this graph with unused connections.
     private ArrayList<Room> viableRooms = new ArrayList<>();
 
+    private int overflowCount = 0;
+
     /**
      * Empty constructor used for building rules
      */
@@ -40,7 +42,7 @@ public class SpaceGraph {
     }
 
     //TODO - might be a good idea to ensure that build can never be called on the same graph
-    // twice - either set the graph to empty at the beginning or have a bool that doens't allow
+    // twice - either set the graph to empty at the beginning or have a bool that doesn't allow
     // it to be built without being cleared first
 
     /**
@@ -57,12 +59,11 @@ public class SpaceGraph {
         setupEntranceRoom(entranceNode);
 
         //Recursively handle each node in the mission graph
-        int count = 0;
         try {
             useMissionGraphNode(entranceNode);
         } catch (StackOverflowError e) {
-            count++;
-            System.out.println("Houston we have overflow: " + count);
+            overflowCount++;
+            System.out.println("Houston we have overflow: " + overflowCount);
             rooms.clear();
             viableRooms.clear();
             build(mission);
@@ -194,6 +195,8 @@ public class SpaceGraph {
         }
     }
 
+    //TODO - should I lock up mini bosses as well?
+
     /**
      * Update roomsWithUnusedConnections
      *
@@ -205,13 +208,17 @@ public class SpaceGraph {
         Room firstRuleRoom = ruleRooms.get(0);
         ArrayList<roomContents> firstRuleRoomContents = firstRuleRoom.getContents();
         if (firstRuleRoomContents.contains(roomContents.LOCK)
-                || firstRuleRoomContents.contains(roomContents.FINAL_LOCK)) {
+                || firstRuleRoomContents.contains(roomContents.FINAL_LOCK)
+                || firstRuleRoomContents.contains(roomContents.LEVEL_BOSS)) {
             if (!(ruleRooms.size() == 1)) {
                 throw new IndexOutOfBoundsException("Rules for locked nodes must only contain " +
                         "one room, if you like to add more complex structures, please add new " +
                         "alphabet symbols or mission rules");
             }
-            lock(base, firstRuleRoom);
+            if (firstRuleRoomContents.contains(roomContents.LOCK)
+                    || firstRuleRoomContents.contains(roomContents.FINAL_LOCK)) {
+                lock(base, firstRuleRoom);
+            }
             //If a room in the graph is locked, we can't allow anything beyond it be placed
             // before it.
             viableRooms.clear();

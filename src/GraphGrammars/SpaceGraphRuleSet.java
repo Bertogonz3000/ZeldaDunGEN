@@ -33,13 +33,14 @@ public class SpaceGraphRuleSet {
                 return makeLockSet(false);
             case 12:
                 return makeLockSet(true);
+            case 3:
+                return makeGoalSet();
             default:
                 throw new IndexOutOfBoundsException("Alphabet value must be a real alphabet " +
                         "symbols " +
                         "numval");
         }
     }
-
 
     /**
      * Make rules for a boss level - it is simply one room containing a level boss
@@ -136,6 +137,20 @@ public class SpaceGraphRuleSet {
         return firstRule;
     }
 
+    private ArrayList<SpaceGraph> makeGoalSet() {
+        ArrayList<SpaceGraph> goalSet = new ArrayList<>();
+
+        SpaceGraph rule = new SpaceGraph();
+
+        Room goalRoom = new Room(roomContents.GOAL);
+
+        addRoomForRuleset(rule, goalRoom, new int[]{0, 0}, new Room[]{});
+
+        goalSet.add(rule);
+
+        return goalSet;
+    }
+
     private ArrayList<SpaceGraph> makeMonsterRoomSet() {
         ArrayList<SpaceGraph> rules = new ArrayList<>();
 
@@ -181,6 +196,8 @@ public class SpaceGraphRuleSet {
     }
 
     //TODO - decide if mini bosses should always have rewards
+    //TODO - consider playing with this and with monsters - maybe mini-bosses should be the ones
+    // that get three rupees at the end.
     private ArrayList<SpaceGraph> makeBossMiniSet() {
         ArrayList<SpaceGraph> rules = new ArrayList<>();
 

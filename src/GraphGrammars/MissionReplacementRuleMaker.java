@@ -102,6 +102,8 @@ public class MissionReplacementRuleMaker {
                 firstRule.getNodes().get(firstRule.getNodes().size() - 1), false);
         addNodeLinear(firstRule, alphabet.BOSS_LEVEL,
                 firstRule.getNodes().get(firstRule.getNodes().size() - 1), false);
+        addNodeLinear(firstRule, alphabet.GOAL,
+                firstRule.getNodes().get(firstRule.getNodes().size() - 1), false);
 
         finalChainRules.add(firstRule);
 
@@ -113,6 +115,8 @@ public class MissionReplacementRuleMaker {
         addNodeLinear(secondRule, alphabet.FINAL_LOCK,
                 secondRule.getNodes().get(secondRule.getNodes().size() - 1), false);
         addNodeLinear(secondRule, alphabet.BOSS_LEVEL,
+                secondRule.getNodes().get(secondRule.getNodes().size() - 1), false);
+        addNodeLinear(secondRule, alphabet.GOAL,
                 secondRule.getNodes().get(secondRule.getNodes().size() - 1), false);
 
         finalChainRules.add(secondRule);

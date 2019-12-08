@@ -10,7 +10,7 @@ public enum alphabet {
     BOSS_LEVEL(0, true, new SpaceGraphRuleSet(0)),
     BOSS_MINI(1, true, new SpaceGraphRuleSet(1)),
     ENTRANCE(2, true),
-    GOAL(3, true),
+    GOAL(3, true, new SpaceGraphRuleSet(3)),
     KEY(4, true, new SpaceGraphRuleSet(4)),
     LOCK(5, true, new SpaceGraphRuleSet(5)),
     MONSTER_ROOM(13, true, new SpaceGraphRuleSet(13)),

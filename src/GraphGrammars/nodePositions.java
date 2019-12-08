@@ -32,4 +32,21 @@ public enum nodePositions {
         }
         throw new IndexOutOfBoundsException("nodePositions go from 0 to 4");
     }
+
+    @Override
+    public String toString() {
+        switch (this) {
+            case LEFT:
+                return "w";
+            case TOP:
+                return "n";
+            case RIGHT:
+                return "e";
+            case BOTTOM:
+                return "s";
+            default:
+                throw new IndexOutOfBoundsException("nodePositions should only be left right top " +
+                        "bottom");
+        }
+    }
 }
