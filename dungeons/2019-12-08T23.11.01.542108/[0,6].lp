@@ -1,0 +1,5 @@
+door(w,final_locked)
+door(s,open)
+in_room(final_key)
+monster_present(0,1)
+monster_present(3,2)

@@ -102,7 +102,7 @@ public enum roomContents {
 
         //For each monster, randomly select a type
         for (int i = 0; i < numMonsters; i++) {
-            int type = rand.nextInt(4);
+            int type = rand.nextInt(3) + 1;
             if (numMonstersByType.containsKey(type)) {
                 numMonstersByType.put(type, numMonstersByType.get(type) + 1);
             } else {

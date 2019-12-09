@@ -216,7 +216,9 @@ public class Room {
         genBuilder.append(getDoorsForGeneration());
 
         //Add room contents, if any (monsters, items, bosses, exploration).
-        genBuilder.append(contents.get(0).getGenerationString());
+        if (!contents.isEmpty()) {
+            genBuilder.append(contents.get(0).getGenerationString());
+        }
 
         return genBuilder.toString();
     }
@@ -249,5 +251,18 @@ public class Room {
         }
 
         return genBuilder.toString();
+    }
+
+    /**
+     * Returns a string containing all the necessary information to run dungeon analysis on this
+     * room
+     *
+     * @return
+     */
+    public String getAnalysisString() {
+        //TODO - change this when we get some measure of monster # and deadly score
+        //TODO - figure out how to get #monsters into this class....may have to move generation
+        // into here
+        return coords[0] + "," + coords[1] + "," + 0 + "," + 0;
     }
 }

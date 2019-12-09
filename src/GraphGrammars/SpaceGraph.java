@@ -2,9 +2,11 @@ package GraphGrammars;
 
 import javax.naming.SizeLimitExceededException;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.Buffer;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class SpaceGraph {
@@ -480,5 +482,140 @@ public class SpaceGraph {
                 "/Pomona4thyr/ai/final_project/gvStuff/spaceGraph.gv"));
         writer.write(getGVString());
         writer.close();
+    }
+
+    /**
+     * Write strings for room generation in ASP to files
+     *
+     * @param dateTime - the dateTime used to name this dungeon
+     */
+    public void writeGenStringsToFiles(LocalDateTime dateTime) {
+        //Name the folder with the current date and time
+        String folderName = dateTime.toString().replaceAll(":", ".");
+
+        //Add new files to this folder with gen strings and name = rooms coordinates w/no spaces
+        for (Room room : rooms) {
+            String fileName = Arrays.toString(room.getCoords()) + ".lp";
+            fileName = fileName.replaceAll("\\s", "");
+            File allDungeonsDir = new File(System.getProperty("user.dir"), "dungeons");
+            File dungeonDir = new File(allDungeonsDir, folderName);
+            File generationDir = new File(dungeonDir, "generation");
+            File roomFile = new File(generationDir, fileName);
+
+            try {
+                createFilesForRoomGen(allDungeonsDir, dungeonDir, generationDir, roomFile);
+                BufferedWriter writer =
+                        new BufferedWriter(new FileWriter(roomFile));
+                writer.write(room.getGenerationString());
+                writer.close();
+            } catch (IOException e) {
+                System.out.println("Error at: " + fileName);
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Write strings for dungeon analysis to CSV files
+     *
+     * @param dateTime -  the dataTime used to name this dungeon
+     */
+    public void writeAnalysisStringsToFiles(LocalDateTime dateTime) {
+        //Name the folder with the current date and time
+        String fileName = dateTime.toString().replaceAll(":", ".");
+
+        //Add new files to this folder with gen strings and name = rooms coordinates w/no spaces
+        for (Room room : rooms) {
+            File allDungeonsDir = new File(System.getProperty("user.dir"), "dungeons");
+            File analysisDir = new File(allDungeonsDir, "analysis");
+            File dungeonFile = new File(analysisDir, fileName + ".csv");
+
+            try {
+                createFilesForDungeonAnalysis(allDungeonsDir, analysisDir, dungeonFile);
+                BufferedWriter writer = new BufferedWriter(new FileWriter(dungeonFile));
+                //TODO - replace this with the actual anaysis string
+                writer.write("WHOOOOO");
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Returns a string containing all the necessary info to run dungeon analysis
+     *
+     * @return
+     */
+    private String getDungeonAnalysisString() {
+//TODO - write this method to compile all rooms' analysis strings with indices and headers room,
+// TODO -xCoord, yCoord, numMonsters, deadlyScore.  Don't forget one row of -1 index and all 0s
+    }
+
+    /**
+     * Create the necessary files and folders to write dungeon analysis .csv files
+     *
+     * @param allDungeonsDir - directory where all dungeons go
+     * @param analysisDir    - directory for this analysis file
+     * @param dungeonFile    - the file for this dungeon
+     */
+    private static void createFilesForDungeonAnalysis(File allDungeonsDir,
+                                                      File analysisDir, File dungeonFile) throws IOException {
+        if (allDungeonsDir.mkdir()) {
+            System.out.println("Dungeons dir created!");
+        } else {
+            System.out.println("Dungeons dir already exists!");
+        }
+
+        if (analysisDir.mkdir()) {
+            System.out.println("analysis dir created!");
+        } else {
+            System.out.println("analysis dir already exists! " + analysisDir.getPath());
+        }
+
+        if (dungeonFile.createNewFile()) {
+            System.out.println("dungeon file created!");
+        } else {
+            System.out.println("dungeon file already exists! " + dungeonFile.getPath());
+        }
+
+    }
+
+    /**
+     * Create the necessary files and folders to write room generation .lp files
+     *
+     * @param allDungeonsDir - directory where all dungeons go
+     * @param dungeonDir     - directory where this dungeon goes (should be based on date and
+     *                       time of creation
+     * @param generationDir  - directory for these generation files
+     * @param roomFile       - the file for this room
+     * @throws IOException
+     */
+    private static void createFilesForRoomGen(File allDungeonsDir, File dungeonDir,
+                                              File generationDir,
+                                              File roomFile) throws IOException {
+        if (!allDungeonsDir.mkdir()) {
+            System.out.println("Dungeon dir already created!");
+        } else {
+            System.out.println("Dungeon dir created!");
+        }
+
+        if (dungeonDir.mkdir()) {
+            System.out.println("Dungeon Dir Created for: " + dungeonDir.getPath());
+        } else {
+            System.out.println("dungeonDir already created: " + dungeonDir.getPath());
+        }
+
+        if (generationDir.mkdir()) {
+            System.out.println("Generation dir created for:" + generationDir.getPath());
+        } else {
+            System.out.println("Generation dir already created: " + generationDir.getPath());
+        }
+
+        if (roomFile.createNewFile()) {
+            System.out.println("Room file created for: " + roomFile.getPath());
+        } else {
+            System.out.println("Roomfile already created: " + roomFile.getPath());
+        }
     }
 }

@@ -6,11 +6,19 @@ public class Experimenter {
 
     public static void main(String[] args) {
         try {
-            testFullPipeline();
+            runEverything();
         } catch (Exception e) {
             System.out.println("WOOPS!");
             e.printStackTrace();
         }
+    }
+
+    private static void testFileWriting() {
+        SpaceGraphRuleSet rules = new SpaceGraphRuleSet(13);
+        SpaceGraph set = rules.getRuleSet().get(1);
+        System.out.println("writing genstrings....");
+        set.writeGenStringsToFiles();
+        System.out.println("Done!");
     }
 
     private static void testGenStrings() {
@@ -54,7 +62,7 @@ public class Experimenter {
         System.out.println(lockRoom.getGenerationString());
     }
 
-    private static void testFullPipeline() throws IOException, InterruptedException {
+    private static void runEverything() throws IOException, InterruptedException {
         System.out.println("Running...");
         MissionGraph testMission = new MissionGraph(new MissionGraphNode(alphabet.START));
         System.out.println("Starting Mission Replacements...");
@@ -63,11 +71,13 @@ public class Experimenter {
         System.out.println("\nBuilding Space Graph...");
         SpaceGraph testSpace = new SpaceGraph(testMission);
         System.out.println("\nSpace Graph Complete \n");
-        System.out.println(testSpace);
-        System.out.println("\n\n" + testSpace.getGVString());
         System.out.println("Writing to files...");
+        System.out.println("Writing GV files...");
         testMission.writeToOutputFile();
         testSpace.writeToOutputFile();
+
+        System.out.println("Writing gen files...");
+        testSpace.writeGenStringsToFiles();
 
         System.out.println("Running commands...");
 
