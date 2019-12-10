@@ -1,1 +1,0 @@
-door(e,open)

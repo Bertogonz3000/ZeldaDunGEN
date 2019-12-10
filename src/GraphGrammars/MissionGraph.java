@@ -2,8 +2,10 @@ package GraphGrammars;
 
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -181,13 +183,45 @@ public class MissionGraph {
         return gvString.toString();
     }
 
-    /**
-     * Create an output file and write the graphviz string to it
-     */
-    public void writeToOutputFile() throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/berto/Desktop" +
-                "/Pomona4thyr/ai/final_project/gvStuff/missionGraph.gv"));
-        writer.write(getGVString());
-        writer.close();
+
+    public void writeGVStringToFile(LocalDateTime dateTime, boolean openFiles) throws IOException
+            , InterruptedException {
+        String baseDirString = System.getProperty("user.dir");
+        //Name the folder with the current date and time
+        String folderName = dateTime.toString().replaceAll(":", ".");
+        File allDungeonsDir = new File(baseDirString, "dungeons");
+        File dungeonDir = new File(allDungeonsDir, folderName);
+        File gvDir = new File(dungeonDir, "GraphViz");
+        File missionFile = new File(gvDir, "missionGraph.gv");
+
+        try {
+            createFilesForGV(allDungeonsDir, dungeonDir, gvDir, missionFile);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(missionFile));
+            writer.write(getGVString());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (openFiles) {
+            Runtime rt = Runtime.getRuntime();
+            Process missionProcess =
+                    rt.exec("dot -Tpng " + baseDirString + "/dungeons/" + folderName + "/GraphViz" +
+                    "/missionGraph.gv -o " + baseDirString + "/dungeons/" + folderName +
+                    "/GraphViz/mission.png");
+            missionProcess.waitFor();
+            Process openMission = rt.exec("open " + baseDirString + "/dungeons/" + folderName +
+                    "/GraphViz/mission" +
+                    ".png");
+            openMission.waitFor();
+        }
+    }
+
+    private void createFilesForGV(File allDungeonsDir, File dungeonsDir, File gvDir,
+                                  File missionFile) throws IOException {
+        allDungeonsDir.mkdir();
+        dungeonsDir.mkdir();
+        gvDir.mkdir();
+        missionFile.createNewFile();
     }
 }

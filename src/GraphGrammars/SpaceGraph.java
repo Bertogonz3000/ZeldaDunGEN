@@ -445,6 +445,49 @@ public class SpaceGraph {
     }
 
     /**
+     * Write the GV string for this spacegraph out to a file
+     */
+    public void writeGVStringToFile(LocalDateTime dateTime, boolean openFiles) throws IOException,
+            InterruptedException {
+        String baseDirString = System.getProperty("user.dir");
+        //Name the folder with the current date and time
+        String folderName = dateTime.toString().replaceAll(":", ".");
+        File allDungeonsDir = new File(baseDirString, "dungeons");
+        File dungeonDir = new File(allDungeonsDir, folderName);
+        File gvDir = new File(dungeonDir, "GraphViz");
+        File spaceFile = new File(gvDir, "spaceGraph.gv");
+
+        try {
+            createFilesForGV(allDungeonsDir, dungeonDir, gvDir, spaceFile);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(spaceFile));
+            writer.write(getGVString());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (openFiles) {
+            Runtime rt = Runtime.getRuntime();
+            Process spaceProcess =
+                    rt.exec("fdp -Tpng " + baseDirString + "/dungeons/" + folderName + "/GraphViz" +
+                    "/spaceGraph.gv -o " + baseDirString + "/dungeons/" + folderName + "/GraphViz" +
+                    "/space.png");
+            spaceProcess.waitFor();
+            Process openSpace = rt.exec("open " + baseDirString + "/dungeons/" + folderName +
+                    "/GraphViz/space.png");
+            openSpace.waitFor();
+        }
+    }
+
+    private void createFilesForGV(File allDungeonsDir, File dungeonsDir, File gvDir,
+                                  File spaceFile) throws IOException {
+        allDungeonsDir.mkdir();
+        dungeonsDir.mkdir();
+        gvDir.mkdir();
+        spaceFile.createNewFile();
+    }
+
+    /**
      * Returns a graph viz compliant string
      */
     public String getGVString() {
@@ -472,16 +515,6 @@ public class SpaceGraph {
         }
 
         return nodeNames.append("\n").toString();
-    }
-
-    /**
-     * Write graphviz string to file
-     */
-    public void writeToOutputFile() throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/berto/Desktop" +
-                "/Pomona4thyr/ai/final_project/gvStuff/spaceGraph.gv"));
-        writer.write(getGVString());
-        writer.close();
     }
 
     /**
@@ -533,8 +566,7 @@ public class SpaceGraph {
             try {
                 createFilesForDungeonAnalysis(allDungeonsDir, analysisDir, dungeonFile);
                 BufferedWriter writer = new BufferedWriter(new FileWriter(dungeonFile));
-                //TODO - replace this with the actual anaysis string
-                writer.write("WHOOOOO");
+                writer.write(getDungeonAnalysisString());
                 writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -548,8 +580,15 @@ public class SpaceGraph {
      * @return
      */
     private String getDungeonAnalysisString() {
-//TODO - write this method to compile all rooms' analysis strings with indices and headers room,
-// TODO -xCoord, yCoord, numMonsters, deadlyScore.  Don't forget one row of -1 index and all 0s
+        StringBuilder builder = new StringBuilder("rooms,xCoords,yCoords,numMonsters," +
+                "deadlyScore\n -1,0,0,0,0\n");
+
+        for (int i = 0; i < rooms.size(); i++) {
+            Room room = rooms.get(i);
+            builder.append(i).append(",").append(room.getAnalysisString()).append("\n");
+        }
+
+        return builder.toString();
     }
 
     /**

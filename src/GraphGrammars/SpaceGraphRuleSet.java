@@ -79,7 +79,7 @@ public class SpaceGraphRuleSet {
     private SpaceGraph makeThirdKeyRule(boolean finalKey) {
         SpaceGraph thirdRule = new SpaceGraph();
 
-        Room firstRoom = new Room();
+        Room firstRoom = new Room(roomContents.EXPLORATION);
         Room keyRoom = finalKey ? new Room(roomContents.FINAL_KEY) : new Room(roomContents.KEY);
 
         addRoomForRuleset(thirdRule, firstRoom, new int[]{0, 0}, new Room[]{});
@@ -93,8 +93,7 @@ public class SpaceGraphRuleSet {
         SpaceGraph secondRule = new SpaceGraph();
 
         //initialize the rooms
-        Room firstRoom = new Room();
-        Room secondRoom = new Room();
+        Room firstRoom = new Room(roomContents.EXPLORATION);
 
         Room keyRoom;
 
@@ -105,9 +104,8 @@ public class SpaceGraphRuleSet {
         }
 
         addRoomForRuleset(secondRule, firstRoom, new int[]{0, 0}, new Room[]{});
-        addRoomForRuleset(secondRule, secondRoom, new int[]{1, 0}, new Room[]{firstRoom, null,
-                keyRoom, null});
-        addRoomForRuleset(secondRule, keyRoom, new int[]{2, 0}, new Room[]{});
+        addRoomForRuleset(secondRule, keyRoom, new int[]{1, 0}, new Room[]{firstRoom, null, null,
+                null});
 
         return secondRule;
     }
@@ -116,8 +114,8 @@ public class SpaceGraphRuleSet {
         SpaceGraph firstRule = new SpaceGraph();
 
         //Initialize the three rooms
-        Room firstRoom = new Room();
-        Room secondRoom = new Room();
+        Room firstRoom = new Room(roomContents.EXPLORATION);
+        Room secondRoom = new Room(roomContents.MONSTERS);
 
         Room keyRoom;
 

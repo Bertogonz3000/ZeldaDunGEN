@@ -2,6 +2,8 @@ package GraphGrammars;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 /**
  * A room in a space graph
@@ -18,7 +20,11 @@ public class Room {
     //The contents of this room
     private ArrayList<roomContents> contents = new ArrayList<>();
 
+    //Which doors in this room are locked (follows nodePositions conventions)
     private boolean[] lockedDoors = new boolean[4];
+
+    //The number of each type of monster located in this room
+    private HashMap<Integer, Integer> numMonstersByType;
 
 
     /**
@@ -218,9 +224,70 @@ public class Room {
         //Add room contents, if any (monsters, items, bosses, exploration).
         if (!contents.isEmpty()) {
             genBuilder.append(contents.get(0).getGenerationString());
+            //If the room should have monsters...
+            if (roomShouldHaveMonsters()) {
+                //if there are none, generate them!
+                if (numMonstersByType == null) {
+                    genRandomMonsters();
+                }
+                //Either way, add string to list!
+                genBuilder.append(getMonsterString());
+            }
         }
 
         return genBuilder.toString();
+    }
+
+    /**
+     * Return whether or no this room should have monsters in it, regardless of how many
+     *
+     * @return
+     */
+    private boolean roomShouldHaveMonsters() {
+        return contents.contains(roomContents.MONSTERS)
+                || contents.contains(roomContents.EXPLORATION)
+                || contents.contains(roomContents.KEY)
+                || contents.contains(roomContents.FINAL_KEY);
+    }
+
+    /**
+     * Generates random numbers of random types of monsters
+     */
+    private void genRandomMonsters() {
+        int numMonsters;
+        Random rand = new Random();
+        numMonstersByType = new HashMap<>();
+
+        //Randomly select the amount of monsters based on the type of room this is.
+        if (contents.contains(roomContents.MONSTERS)) {
+            numMonsters = rand.nextInt(5) + 4;
+        } else {
+            numMonsters = rand.nextInt(4);
+        }
+
+        //For each monster, randomly select a type
+        for (int i = 0; i < numMonsters; i++) {
+            int type = rand.nextInt(3) + 1;
+            if (numMonstersByType.containsKey(type)) {
+                numMonstersByType.put(type, numMonstersByType.get(type) + 1);
+            } else {
+                numMonstersByType.put(type, 1);
+            }
+        }
+    }
+
+    private String getMonsterString() {
+        if (numMonstersByType == null) {
+            throw new IllegalArgumentException("You must generate the number of monsters using " +
+                    "genRandomMonsters before gettingMonster string");
+        }
+        StringBuilder builder = new StringBuilder();
+        //For each monster type, append a string describing it and its # for generation
+        for (Integer type : numMonstersByType.keySet()) {
+            builder.append("monster_present(").append(type).append(",").append(numMonstersByType.get(type)).append(")\n");
+        }
+
+        return builder.toString();
     }
 
     private String getDoorsForGeneration() {
@@ -261,8 +328,20 @@ public class Room {
      */
     public String getAnalysisString() {
         //TODO - change this when we get some measure of monster # and deadly score
-        //TODO - figure out how to get #monsters into this class....may have to move generation
-        // into here
-        return coords[0] + "," + coords[1] + "," + 0 + "," + 0;
+        int totalMonsters = 0;
+        //If this room should have monsters in it...
+        if (roomShouldHaveMonsters()) {
+            //If there are none yet, generate them!
+            if (numMonstersByType == null) {
+                genRandomMonsters();
+            } else {
+                //if they've already been generated, add them up!
+                for (Integer num : numMonstersByType.values()) {
+                    totalMonsters += num;
+                }
+            }
+        }
+
+        return coords[0] + "," + coords[1] + "," + totalMonsters + "," + 0;
     }
 }
