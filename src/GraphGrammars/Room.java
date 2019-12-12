@@ -90,8 +90,10 @@ public class Room {
      * @return
      */
     public String getCoordsForLP() {
-        String x = coords[0] < 0 ? "neg" + coords[0] : Integer.toString(coords[0]);
-        String y = coords[1] < 0 ? "neg" + coords[1] : Integer.toString(coords[1]);
+        String x = coords[0] < 0 ? "neg" + Math.abs(coords[0]) :
+                Integer.toString(Math.abs(coords[0]));
+        String y = coords[1] < 0 ? "neg" + Math.abs(coords[1]) :
+                Integer.toString(Math.abs(coords[1]));
         return x + "_" + y;
     }
 
