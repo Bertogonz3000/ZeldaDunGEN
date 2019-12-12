@@ -1,0 +1,6 @@
+door(w,open)
+door(e,open)
+door(s,open)
+in_room(key)
+monster_present(2,1)
+monster_present(3,2)

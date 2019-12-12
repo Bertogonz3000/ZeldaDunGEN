@@ -284,7 +284,7 @@ public class Room {
         StringBuilder builder = new StringBuilder();
         //For each monster type, append a string describing it and its # for generation
         for (Integer type : numMonstersByType.keySet()) {
-            builder.append("monster_present(").append(type).append(",").append(numMonstersByType.get(type)).append(")\n");
+            builder.append("monster_present(monster").append(type).append(",").append(numMonstersByType.get(type)).append(").\n");
         }
 
         return builder.toString();
@@ -313,7 +313,7 @@ public class Room {
                 }
 
                 //Append the direction
-                genBuilder.append("door(").append(nodePositions.getPositionForInt(i)).append(",").append(doorType).append(")\n");
+                genBuilder.append("door(").append(nodePositions.getPositionForInt(i)).append(",").append(doorType).append(").\n");
             }
         }
 

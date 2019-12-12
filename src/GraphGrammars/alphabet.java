@@ -57,8 +57,11 @@ public enum alphabet {
         this.spaceRules = rules;
     }
 
-    //TODO - this constructor is just so we don't have to fill out rules for everything while
-    // testing get rid of this when done!
+    /**
+     * Constructor for nodes without rules.
+     * @param numVal
+     * @param terminal
+     */
     alphabet(int numVal, boolean terminal) {
         this.numVal = numVal;
         this.terminal = terminal;

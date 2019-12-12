@@ -1,0 +1,5 @@
+door(w,open)
+door(n,open)
+door(e,locked)
+monster_present(1,4)
+monster_present(2,1)

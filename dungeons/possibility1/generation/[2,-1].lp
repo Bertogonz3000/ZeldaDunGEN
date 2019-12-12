@@ -1,0 +1,5 @@
+door(w,final_locked)
+door(e,locked)
+monster_present(1,1)
+monster_present(2,1)
+monster_present(3,1)

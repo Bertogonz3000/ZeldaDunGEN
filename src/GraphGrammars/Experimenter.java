@@ -7,7 +7,9 @@ public class Experimenter {
 
     public static void main(String[] args) {
         try {
-            runEverything(true);
+            for (int i = 0; i < 1; i++) {
+                runEverything(true);
+            }
         } catch (Exception e) {
             System.out.println("WOOPS!");
             e.printStackTrace();

@@ -1,0 +1,46 @@
+graph space {
+
+node [shape="box"]; entranceX0Y0 [pad="1.5,0.0" pos="0,0!"]; explorationXneg1Y0 [pad="1.5,0.0" pos="-1,0!"]; monstersXneg2Y0 [pad="1.5,0.0" pos="-2,0!"]; keyXneg2Yneg1 [pad="1.5,0.0" pos="-2,-1!"]; monstersXneg3Yneg1 [pad="1.5,0.0" pos="-3,-1!"]; explorationXneg1Yneg1 [pad="1.5,0.0" pos="-1,-1!"]; keyXneg1Yneg2 [pad="1.5,0.0" pos="-1,-2!"]; lockXneg1Y1 [pad="1.5,0.0" pos="-1,1!"]; mini_bossXneg1Y2 [pad="1.5,0.0" pos="-1,2!"]; rupeeXneg1Y3 [pad="1.5,0.0" pos="-1,3!"]; lockXneg2Y2 [pad="1.5,0.0" pos="-2,2!"]; monstersXneg2Y1 [pad="1.5,0.0" pos="-2,1!"]; rupeeXneg3Y1 [pad="1.5,0.0" pos="-3,1!"]; explorationXneg3Y2 [pad="1.5,0.0" pos="-3,2!"]; keyXneg4Y2 [pad="1.5,0.0" pos="-4,2!"]; lockXneg2Y3 [pad="1.5,0.0" pos="-2,3!"]; mini_bossXneg2Y4 [pad="1.5,0.0" pos="-2,4!"]; explorationXneg2Y5 [pad="1.5,0.0" pos="-2,5!"]; monstersXneg3Y5 [pad="1.5,0.0" pos="-3,5!"]; final_keyXneg3Y4 [pad="1.5,0.0" pos="-3,4!"]; final_lockXneg2Y6 [pad="1.5,0.0" pos="-2,6!"]; level_bossXneg3Y6 [pad="1.5,0.0" pos="-3,6!"]; shardXneg4Y6 [pad="1.5,0.0" pos="-4,6!"]; 
+entranceX0Y0 -- explorationXneg1Y0;
+explorationXneg1Y0 -- lockXneg1Y1;
+explorationXneg1Y0 -- entranceX0Y0;
+monstersXneg2Y0 -- explorationXneg1Y0;
+monstersXneg2Y0 -- keyXneg2Yneg1;
+keyXneg2Yneg1 -- monstersXneg3Yneg1;
+keyXneg2Yneg1 -- explorationXneg1Yneg1;
+keyXneg2Yneg1 -- monstersXneg2Y0;
+monstersXneg3Yneg1 -- keyXneg2Yneg1;
+explorationXneg1Yneg1 -- keyXneg2Yneg1;
+explorationXneg1Yneg1 -- keyXneg1Yneg2;
+keyXneg1Yneg2 -- explorationXneg1Yneg1;
+lockXneg1Y1 -- mini_bossXneg1Y2;
+lockXneg1Y1 -- explorationXneg1Y0;
+mini_bossXneg1Y2 -- lockXneg2Y2;
+mini_bossXneg1Y2 -- rupeeXneg1Y3;
+mini_bossXneg1Y2 -- lockXneg1Y1;
+rupeeXneg1Y3 -- mini_bossXneg1Y2;
+lockXneg2Y2 -- lockXneg2Y3;
+lockXneg2Y2 -- mini_bossXneg1Y2;
+lockXneg2Y2 -- monstersXneg2Y1;
+monstersXneg2Y1 -- lockXneg2Y2;
+rupeeXneg3Y1 -- explorationXneg3Y2;
+rupeeXneg3Y1 -- monstersXneg2Y1;
+explorationXneg3Y2 -- keyXneg4Y2;
+explorationXneg3Y2 -- rupeeXneg3Y1;
+keyXneg4Y2 -- explorationXneg3Y2;
+lockXneg2Y3 -- mini_bossXneg2Y4;
+lockXneg2Y3 -- lockXneg2Y2;
+mini_bossXneg2Y4 -- explorationXneg2Y5;
+mini_bossXneg2Y4 -- lockXneg2Y3;
+explorationXneg2Y5 -- final_lockXneg2Y6;
+explorationXneg2Y5 -- monstersXneg3Y5;
+explorationXneg2Y5 -- mini_bossXneg2Y4;
+monstersXneg3Y5 -- explorationXneg2Y5;
+monstersXneg3Y5 -- final_keyXneg3Y4;
+final_keyXneg3Y4 -- monstersXneg3Y5;
+final_lockXneg2Y6 -- level_bossXneg3Y6;
+final_lockXneg2Y6 -- explorationXneg2Y5;
+level_bossXneg3Y6 -- shardXneg4Y6;
+level_bossXneg3Y6 -- final_lockXneg2Y6;
+shardXneg4Y6 -- level_bossXneg3Y6;
+}

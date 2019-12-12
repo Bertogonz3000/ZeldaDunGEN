@@ -29,7 +29,7 @@ public enum roomContents {
             case ENTRACE:
                 return "entrance";
             case GOAL:
-                return "goal";
+                return "shard";
             case KEY:
                 return "key";
             case LOCK:
@@ -84,7 +84,7 @@ public enum roomContents {
         if (type != KEY && type != RUPEE && type != FINAL_KEY && type != GOAL && type != ENTRACE) {
             throw new IllegalArgumentException("No generic string for:" + this);
         }
-        return "in_room(" + this + ")\n";
+        return "in_room(" + this + ").\n";
     }
 
     /**
@@ -96,9 +96,9 @@ public enum roomContents {
     private String getBossString(roomContents type) {
         switch (type) {
             case MINI_BOSS:
-                return "boss_present(mini)\n";
+                return "boss_present(mini).\n";
             case LEVEL_BOSS:
-                return "boss_present(level)\n";
+                return "boss_present(level).\n";
             default:
                 throw new IllegalArgumentException("input to getBossString must be a boss type");
 

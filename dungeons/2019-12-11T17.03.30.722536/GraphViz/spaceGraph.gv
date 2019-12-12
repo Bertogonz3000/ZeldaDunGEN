@@ -1,0 +1,41 @@
+graph space {
+
+node [shape="box"]; entranceX0Y0 [pad="1.5,0.0" pos="0,0!"]; monstersX1Y0 [pad="1.5,0.0" pos="1,0!"]; explorationX1Y1 [pad="1.5,0.0" pos="1,1!"]; keyX0Y1 [pad="1.5,0.0" pos="0,1!"]; lockX0Y2 [pad="1.5,0.0" pos="0,2!"]; mini_bossX1Y2 [pad="1.5,0.0" pos="1,2!"]; explorationX1Y3 [pad="1.5,0.0" pos="1,3!"]; explorationX2Y3 [pad="1.5,0.0" pos="2,3!"]; explorationX2Y4 [pad="1.5,0.0" pos="2,4!"]; rupeeX3Y3 [pad="1.5,0.0" pos="3,3!"]; explorationX2Y2 [pad="1.5,0.0" pos="2,2!"]; monstersX0Y3 [pad="1.5,0.0" pos="0,3!"]; rupeeXneg1Y3 [pad="1.5,0.0" pos="-1,3!"]; mini_bossXneg1Y2 [pad="1.5,0.0" pos="-1,2!"]; rupeeXneg2Y2 [pad="1.5,0.0" pos="-2,2!"]; explorationX2Y1 [pad="1.5,0.0" pos="2,1!"]; final_keyX2Y0 [pad="1.5,0.0" pos="2,0!"]; final_lockX2Y5 [pad="1.5,0.0" pos="2,5!"]; level_bossX1Y5 [pad="1.5,0.0" pos="1,5!"]; shardX1Y4 [pad="1.5,0.0" pos="1,4!"]; 
+entranceX0Y0 -- monstersX1Y0;
+monstersX1Y0 -- entranceX0Y0;
+monstersX1Y0 -- explorationX1Y1;
+explorationX1Y1 -- keyX0Y1;
+explorationX1Y1 -- monstersX1Y0;
+keyX0Y1 -- explorationX1Y1;
+keyX0Y1 -- lockX0Y2;
+lockX0Y2 -- mini_bossXneg1Y2;
+lockX0Y2 -- monstersX0Y3;
+lockX0Y2 -- mini_bossX1Y2;
+lockX0Y2 -- keyX0Y1;
+mini_bossX1Y2 -- lockX0Y2;
+mini_bossX1Y2 -- explorationX1Y3;
+explorationX1Y3 -- explorationX2Y3;
+explorationX1Y3 -- mini_bossX1Y2;
+explorationX2Y3 -- explorationX2Y4;
+explorationX2Y3 -- rupeeX3Y3;
+explorationX2Y3 -- explorationX2Y2;
+explorationX2Y3 -- explorationX1Y3;
+explorationX2Y4 -- final_lockX2Y5;
+explorationX2Y4 -- explorationX2Y3;
+rupeeX3Y3 -- explorationX2Y3;
+explorationX2Y2 -- explorationX2Y3;
+explorationX2Y2 -- explorationX2Y1;
+monstersX0Y3 -- rupeeXneg1Y3;
+monstersX0Y3 -- lockX0Y2;
+rupeeXneg1Y3 -- monstersX0Y3;
+mini_bossXneg1Y2 -- rupeeXneg2Y2;
+mini_bossXneg1Y2 -- lockX0Y2;
+rupeeXneg2Y2 -- mini_bossXneg1Y2;
+explorationX2Y1 -- explorationX2Y2;
+final_keyX2Y0 -- explorationX2Y1;
+final_lockX2Y5 -- level_bossX1Y5;
+final_lockX2Y5 -- explorationX2Y4;
+level_bossX1Y5 -- final_lockX2Y5;
+level_bossX1Y5 -- shardX1Y4;
+shardX1Y4 -- level_bossX1Y5;
+}
