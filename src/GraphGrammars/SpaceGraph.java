@@ -470,8 +470,9 @@ public class SpaceGraph {
             Runtime rt = Runtime.getRuntime();
             Process spaceProcess =
                     rt.exec("fdp -Tpng " + baseDirString + "/dungeons/" + folderName + "/GraphViz" +
-                    "/spaceGraph.gv -o " + baseDirString + "/dungeons/" + folderName + "/GraphViz" +
-                    "/space.png");
+                            "/spaceGraph.gv -o " + baseDirString + "/dungeons/" + folderName +
+                            "/GraphViz" +
+                            "/space.png");
             spaceProcess.waitFor();
             Process openSpace = rt.exec("open " + baseDirString + "/dungeons/" + folderName +
                     "/GraphViz/space.png");
@@ -528,7 +529,7 @@ public class SpaceGraph {
 
         //Add new files to this folder with gen strings and name = rooms coordinates w/no spaces
         for (Room room : rooms) {
-            String fileName = Arrays.toString(room.getCoords()) + ".lp";
+            String fileName = room.getCoordsForLP() + ".lp";
             fileName = fileName.replaceAll("\\s", "");
             File allDungeonsDir = new File(System.getProperty("user.dir"), "dungeons");
             File dungeonDir = new File(allDungeonsDir, folderName);

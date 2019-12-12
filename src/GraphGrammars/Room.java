@@ -84,6 +84,18 @@ public class Room {
     }
 
     /**
+     * Return this room's coordinates as a string formatted in such a way so it works with our
+     * .lp file name format.
+     *
+     * @return
+     */
+    public String getCoordsForLP() {
+        String x = coords[0] < 0 ? "neg" + coords[0] : Integer.toString(coords[0]);
+        String y = coords[1] < 0 ? "neg" + coords[1] : Integer.toString(coords[1]);
+        return x + "_" + y;
+    }
+
+    /**
      * Sets this room's coordinates in 2D space
      *
      * @param coords
