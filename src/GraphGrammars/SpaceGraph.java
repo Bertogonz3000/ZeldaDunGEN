@@ -68,6 +68,9 @@ public class SpaceGraph {
             System.out.println("Houston we have overflow: " + overflowCount);
             rooms.clear();
             viableRooms.clear();
+            if (overflowCount > 5) {
+                throw new StackOverflowError("Something went wrong on our end, please try again");
+            }
             build(mission);
         }
     }
@@ -120,7 +123,7 @@ public class SpaceGraph {
         int count = 0;
         while (applicationFailed) {
             count++;
-            if (count >= 100) {
+            if (count >= 20) {
                 extendGraph(newNode);
                 break;
             }
@@ -582,7 +585,7 @@ public class SpaceGraph {
      */
     private String getDungeonAnalysisString() {
         StringBuilder builder = new StringBuilder("rooms,xCoords,yCoords,numMonsters," +
-                "deadlyScore\n -1,0,0,0,0\n");
+                "miniBoss\n -1,0,0,0,0\n");
 
         for (int i = 0; i < rooms.size(); i++) {
             Room room = rooms.get(i);

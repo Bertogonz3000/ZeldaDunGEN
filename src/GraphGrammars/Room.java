@@ -356,6 +356,8 @@ public class Room {
             }
         }
 
-        return coords[0] + "," + coords[1] + "," + totalMonsters + "," + 0;
+        int miniBoss = contents.contains(roomContents.MINI_BOSS) ? 1 : 0;
+
+        return coords[0] + "," + coords[1] + "," + totalMonsters + "," + miniBoss;
     }
 }
