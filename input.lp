@@ -9,4 +9,4 @@ in_room(key).
 monster_present(monster1,4).
 door(n,locked).
 door(s,open).
-boss_present(level).
+% boss_present(level).
