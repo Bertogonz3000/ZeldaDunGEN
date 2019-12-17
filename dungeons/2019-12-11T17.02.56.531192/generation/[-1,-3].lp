@@ -1,5 +1,0 @@
-door(w,locked)
-door(n,open)
-door(e,locked)
-monster_present(1,2)
-monster_present(3,1)

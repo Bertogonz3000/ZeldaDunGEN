@@ -8,7 +8,7 @@ public class Experimenter {
     public static void main(String[] args) {
         try {
             for (int i = 0; i < 1; i++) {
-                runEverything(true);
+                runEverything(false);
             }
         } catch (Exception e) {
             System.out.println("WOOPS!");
@@ -87,6 +87,10 @@ public class Experimenter {
 
         System.out.println("Writing analysis files...");
         testSpace.writeAnalysisStringsToFiles(time);
+
+        System.out.println("Building Room Internals...");
+        RoomRunner roomRunner = new RoomRunner();
+        roomRunner.fillRooms(time, true);
 
         System.out.println("Complete!");
     }

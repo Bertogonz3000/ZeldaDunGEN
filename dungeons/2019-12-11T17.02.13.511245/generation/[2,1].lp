@@ -1,4 +1,0 @@
-door(e,open)
-monster_present(1,3)
-monster_present(2,2)
-monster_present(3,2)
