@@ -1,0 +1,16 @@
+digraph mission {
+entrance0 -> key1
+key1 -> monster_room2
+monster_room2 -> boss_mini3
+boss_mini3 -> lock4
+lock4 -> key5
+key5 -> monster_room11
+lock6 -> final_key7
+final_key7 -> final_lock8
+final_lock8 -> boss_level9
+boss_level9 -> goal10
+monster_room11 -> key12
+key12 -> lock13
+lock13 -> boss_mini14
+boss_mini14 -> lock6
+}

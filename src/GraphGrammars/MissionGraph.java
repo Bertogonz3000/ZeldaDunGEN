@@ -207,12 +207,11 @@ public class MissionGraph {
             Runtime rt = Runtime.getRuntime();
             Process missionProcess =
                     rt.exec("dot -Tpng " + baseDirString + "/dungeons/" + folderName + "/GraphViz" +
-                    "/missionGraph.gv -o " + baseDirString + "/dungeons/" + folderName +
-                    "/GraphViz/mission.png");
+                            "/missionGraph.gv -o " + baseDirString + "/dungeons/" + folderName +
+                            "/GraphViz/mission.png");
             missionProcess.waitFor();
             Process openMission = rt.exec("open " + baseDirString + "/dungeons/" + folderName +
-                    "/GraphViz/mission" +
-                    ".png");
+                    "/GraphViz/mission.png");
             openMission.waitFor();
         }
     }

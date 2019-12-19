@@ -76,9 +76,13 @@ public class RoomRunner {
                             + (ThreadLocalRandom.current().nextLong(1, 4000000001L))
                             + " " + aspCodePath + "domain.lp" + " " + lpCodePath + lpFile + " " + aspCodePath
                             + "gen.lp";
+            System.out.println(command);
             //Try to run this process - if fail, print some good good info
             try {
                 Process roomFillProcess = rt.exec(command);
+                if (!roomFillProcess.isAlive()) {
+                    System.out.println("Exit:"+roomFillProcess.exitValue());
+                }
                 writeRoomContentsToFile(roomFillProcess, outputPath, outputFileName, createGVFiles);
                 roomFillProcess.waitFor();
             } catch (Exception e) {
