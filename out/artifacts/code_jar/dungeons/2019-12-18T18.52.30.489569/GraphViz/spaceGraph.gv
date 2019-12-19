@@ -1,0 +1,33 @@
+graph space {
+
+node [shape="box"]; entranceX0Y0 [pad="1.5,0.0" pos="0,0!"]; monstersX1Y0 [pad="1.5,0.0" pos="1,0!"]; monstersX1Yneg1 [pad="1.5,0.0" pos="1,-1!"]; rupeeX0Yneg1 [pad="1.5,0.0" pos="0,-1!"]; rupeeX2Yneg1 [pad="1.5,0.0" pos="2,-1!"]; rupeeX1Yneg2 [pad="1.5,0.0" pos="1,-2!"]; explorationX2Yneg2 [pad="1.5,0.0" pos="2,-2!"]; keyX3Yneg2 [pad="1.5,0.0" pos="3,-2!"]; lockX2Y0 [pad="1.5,0.0" pos="2,0!"]; mini_bossX2Y1 [pad="1.5,0.0" pos="2,1!"]; explorationX3Y0 [pad="1.5,0.0" pos="3,0!"]; monstersX4Y0 [pad="1.5,0.0" pos="4,0!"]; final_keyX4Y1 [pad="1.5,0.0" pos="4,1!"]; final_lockX2Y2 [pad="1.5,0.0" pos="2,2!"]; level_bossX3Y2 [pad="1.5,0.0" pos="3,2!"]; shardX4Y2 [pad="1.5,0.0" pos="4,2!"]; 
+entranceX0Y0 -- monstersX1Y0;
+monstersX1Y0 -- entranceX0Y0;
+monstersX1Y0 -- monstersX1Yneg1;
+monstersX1Y0 -- lockX2Y0;
+monstersX1Yneg1 -- rupeeX2Yneg1;
+monstersX1Yneg1 -- rupeeX1Yneg2;
+monstersX1Yneg1 -- rupeeX0Yneg1;
+monstersX1Yneg1 -- monstersX1Y0;
+rupeeX0Yneg1 -- monstersX1Yneg1;
+rupeeX2Yneg1 -- monstersX1Yneg1;
+rupeeX2Yneg1 -- explorationX2Yneg2;
+rupeeX1Yneg2 -- monstersX1Yneg1;
+explorationX2Yneg2 -- rupeeX2Yneg1;
+keyX3Yneg2 -- explorationX2Yneg2;
+lockX2Y0 -- monstersX1Y0;
+lockX2Y0 -- mini_bossX2Y1;
+lockX2Y0 -- explorationX3Y0;
+mini_bossX2Y1 -- final_lockX2Y2;
+mini_bossX2Y1 -- lockX2Y0;
+explorationX3Y0 -- lockX2Y0;
+explorationX3Y0 -- monstersX4Y0;
+monstersX4Y0 -- explorationX3Y0;
+monstersX4Y0 -- final_keyX4Y1;
+final_keyX4Y1 -- monstersX4Y0;
+final_lockX2Y2 -- level_bossX3Y2;
+final_lockX2Y2 -- mini_bossX2Y1;
+level_bossX3Y2 -- final_lockX2Y2;
+level_bossX3Y2 -- shardX4Y2;
+shardX4Y2 -- level_bossX3Y2;
+}
